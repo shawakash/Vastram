@@ -7,7 +7,7 @@ import { HiOutlineLogout } from 'react-icons/hi'
 
 const Navbar = () => {
     return (
-        <nav className="flex flex-col items-center justify-around px-5 py-3 md:flex-row gap-y-2 tracking-wide md:py-7">
+        <nav className="flex flex-col items-center justify-around px-5 py-3 md:flex-row gap-y-2 tracking-wide md:py-7 sticky top-0 bg-white backdrop-blur-sm bg-opacity-70">
             <div className="brand font-bold text-xl cursor-pointer md:text-3xl italic text-[#b6464c] font-head tracking-widest -rotate-12">
                 <Link href={'/'}>
                     Vastram
@@ -17,7 +17,7 @@ const Navbar = () => {
                 <Link href={'/product/suits'}>
                     <li className="">Suits</li>
                 </Link>
-                <Link href={'/product/shirts'}>
+                <Link href={'shirts'}>
                     <li className="hidden lg:flex">Shirts</li>
                 </Link>
                 <Link href={'/traditional'}>
