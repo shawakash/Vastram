@@ -24,6 +24,7 @@ body {
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
-    )
+    );
+  overflow-x: hidden; 
     /* rgb(var(--background-start-rgb)); */
 }
