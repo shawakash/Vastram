@@ -11,12 +11,20 @@ const Slug = () => {
     const { slug } = router.query;
     const pincodeRef = useRef();
     const [servicePin, setServicePin] = useState(null);
+
+    // useEffect(() => {
+    //     return {
+    //         setServicePin();
+    //     }
+    // })
+
     const pincodeCheck = async (e) => {
         e.preventDefault()
         const body = {
             pincode: parseInt(pincodeRef.current.value)
         }
-        await fetch(`http://localhost:3000/api/pincode`, {
+        console.log(pincodeRef.current.value)
+        body.pincode && await fetch(`http://localhost:3000/api/pincode`, {
             method: 'POST',
             body: JSON.stringify(body)
         }).then(a => a.json()).then(({ value }) => {
@@ -115,7 +123,7 @@ const Slug = () => {
                                 <input type="number" ref={pincodeRef} className="border-b-2 font-serif focus:border-[#b6464c] outline-none transition-all text-base md:text-lg py-1 w-40 text-clip cursor-pointer focus:cursor-text overflow-hidden" placeholder='Pincode To Check' />
                                 <button onClick={pincodeCheck} className='md:text-lg text-sm text-white font-medium cursor-pointer  bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><FaRegQuestionCircle className='text-xl' />Check</button>
                             </form>
-                            {servicePin == null ? <></> : <div className="mt-2">
+                            {servicePin == null || !(pincodeRef.current.value) ? <></> : <div className="mt-2">
                                 {servicePin ? <span className='text-green-600 tracking-wide'>We deliver in this pin :)</span> : <span className='text-red-500 tracking-wide'>Sorry, But we are Expanding fastly :)</span>}
                             </div>
                             }
