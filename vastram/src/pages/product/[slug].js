@@ -3,10 +3,11 @@ import { useRouter } from 'next/router'
 import React, { useRef, useState } from 'react'
 import { BsFillBagCheckFill, BsQuestionCircle } from 'react-icons/bs';
 import { FaRegQuestionCircle } from 'react-icons/fa';
+import { MdAddCircle } from 'react-icons/md';
 import toast, { Toaster } from 'react-hot-toast';
 
 
-const Slug = () => {
+const Slug = ({addInCart}) => {
     const router = useRouter();
     const { slug } = router.query;
     const pincodeRef = useRef();
@@ -28,7 +29,7 @@ const Slug = () => {
             method: 'POST',
             body: JSON.stringify(body)
         }).then(a => a.json()).then(({ value }) => {
-            if(value) {
+            if (value) {
                 toast.success('We are ready to delivery at your doorstep :)');
             } else {
                 toast.error("Sorry, But we are Expanding fastly :)");
@@ -107,10 +108,12 @@ const Slug = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex w-fit gap-x-10">
-                                <span className="title-font font-medium font-serif md:text-2xl text-lg text-gray-900">₹ 500.00</span>
+                            <div className="flex w-fit gap-x-6 w-full items-center md:gap-x-10">
+                                <span className="title-font font-medium font-serif md:text-2xl text-lg text-gray-900 w-20 sm:w-fit">₹ 500.00</span>
+                                <button onClick={() => {
+                                    addInCart(112165542546, 3, 534, 'M', "The Dohti(M, White)", "White")
+                                }} className='md:text-lg text-lg text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><MdAddCircle /></button>
                                 <div className=" flex ">
-
                                     <button className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
                                     <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                                         <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">

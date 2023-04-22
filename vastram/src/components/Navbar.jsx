@@ -7,8 +7,10 @@ import { HiOutlineLogout, HiOutlineMinusCircle } from 'react-icons/hi'
 import { RiAddCircleLine, RiDeleteBin6Line } from 'react-icons/ri'
 import { BsFillBagCheckFill } from 'react-icons/bs'
 
+
 const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
     const sideCartRef = useRef();
+    console.log(cart)
     const toggleCart = () => {
         if (sideCartRef.current.classList.contains('translate-x-full')) {
             sideCartRef.current.classList.remove('translate-x-full')
@@ -63,14 +65,18 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                                 <li className="" key={k}>
                                     <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
 
-                                        <div className="product w-2/3 ">{cart[k]?.name}</div>
+                                        <div className="product w-2/3 ">{cart[k]?.name.slice(0, 13)}..</div>
                                         <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
-                                            <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
+                                            <div onClick={(_) => {
+                                                addInCart(k, 1, 534, 'M', "The Dohti(M, White)", "White")
+                                            }} className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
                                             <div className="count text-slate-800">{cart[k]?.qty}</div>
-                                            <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
+                                            <div onClick={() => {
+                                                removeFromCart(k, 1)
+                                            }} className="decr text-slate-700"><HiOutlineMinusCircle /></div>
                                         </div>
                                         <div className="item-total w-1/6 font-serif">
-                                            ₹{cart[k]?.price}
+                                            ₹{(cart[k].qty)*(cart[k].price)}
                                         </div>
                                     </div>
                                 </li>
@@ -90,7 +96,7 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
 
                                 </div>
                                 <div className="item-total w-1/6 font-serif">
-                                    ₹500.00
+                                    ₹{subTotal}
                                 </div>
                             </div>
 
@@ -100,7 +106,7 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                                     <button className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
                                 </div>
                                 <div className="">
-                                    <button className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md px-2 md:px-4 py-1 flex items-center gap-x-2'><RiDeleteBin6Line />Clear</button>
+                                    <button onClick={clearCart} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md px-2 md:px-4 py-1 flex items-center gap-x-2'><RiDeleteBin6Line />Clear</button>
                                 </div>
                             </div>
                         </>
