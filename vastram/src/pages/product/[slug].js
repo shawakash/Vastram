@@ -112,6 +112,7 @@ const Slug = ({addInCart}) => {
                                 <span className="title-font font-medium font-serif md:text-2xl text-lg text-gray-900 w-20 sm:w-fit">₹ 500.00</span>
                                 <button onClick={() => {
                                     addInCart(112165542546, 3, 534, 'M', "The Dohti(M, White)", "White")
+                                    toast.success("Added item in cart :) ")
                                 }} className='md:text-lg text-lg text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><MdAddCircle /></button>
                                 <div className=" flex ">
                                     <button className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>

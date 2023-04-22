@@ -6,6 +6,7 @@ import { CgProfile, CgCloseO } from 'react-icons/cg'
 import { HiOutlineLogout, HiOutlineMinusCircle } from 'react-icons/hi'
 import { RiAddCircleLine, RiDeleteBin6Line } from 'react-icons/ri'
 import { BsFillBagCheckFill } from 'react-icons/bs'
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
@@ -69,10 +70,12 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                                         <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
                                             <div onClick={(_) => {
                                                 addInCart(k, 1, 534, 'M', "The Dohti(M, White)", "White")
+                                                toast.success("Added One Item To The Cart :) ")
                                             }} className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
                                             <div className="count text-slate-800">{cart[k]?.qty}</div>
                                             <div onClick={() => {
                                                 removeFromCart(k, 1)
+                                                toast.success("Removed one Item From Cart :( ")
                                             }} className="decr text-slate-700"><HiOutlineMinusCircle /></div>
                                         </div>
                                         <div className="item-total w-1/6 font-serif">
@@ -106,7 +109,10 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                                     <button className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
                                 </div>
                                 <div className="">
-                                    <button onClick={clearCart} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md px-2 md:px-4 py-1 flex items-center gap-x-2'><RiDeleteBin6Line />Clear</button>
+                                    <button onClick={(_) => {
+                                        clearCart()
+                                        toast.success('Cart is cleared');
+                                        }} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md px-2 md:px-4 py-1 flex items-center gap-x-2'><RiDeleteBin6Line />Clear</button>
                                 </div>
                             </div>
                         </>
@@ -114,7 +120,6 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                     }
 
                 </ol>
-
             </div>
         </nav>
     );
