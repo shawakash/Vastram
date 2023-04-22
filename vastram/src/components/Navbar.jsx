@@ -4,7 +4,7 @@ import { RiShoppingCartFill } from 'react-icons/ri'
 import { BiNotepad } from 'react-icons/bi'
 import { CgProfile, CgCloseO } from 'react-icons/cg'
 import { HiOutlineLogout, HiOutlineMinusCircle } from 'react-icons/hi'
-import { RiAddCircleLine } from 'react-icons/ri'
+import { RiAddCircleLine, RiDeleteBin6Line } from 'react-icons/ri'
 import { BsFillBagCheckFill } from 'react-icons/bs'
 
 const Navbar = () => {
@@ -32,7 +32,7 @@ const Navbar = () => {
                 <Link href={'/product/suits'}>
                     <li className="">Suits</li>
                 </Link>
-                <Link href={'shirts'}>
+                <Link href={'/shirts'}>
                     <li className="hidden lg:flex">Shirts</li>
                 </Link>
                 <Link href={'/traditional'}>
@@ -53,7 +53,7 @@ const Navbar = () => {
                     <li className=""><HiOutlineLogout className='text-base md:text-lg lg:text-[25px]' /></li>
                 </Link>
             </ul>
-            <div ref={sideCartRef} className="sideCart absolute top-24 right-24 flex flex-col gap-y-5 p-10 bg-[#e5bfc1] bg-opacity-95 rounded-xl rounded-t-none rounded-r-none md:top-0 right-0 tracking-wide transform transition-transform translate-x-full w-72 md:w-96">
+            <div ref={sideCartRef} className="sideCart absolute top-24 right-24 flex flex-col gap-y-5 p-10 bg-[#e5bfc1] bg-opacity-95 rounded-xl md:rounded-t-none md: rounded-r-none md:top-0 right-0 tracking-wide transform transition-transform translate-x-full w-72 md:w-96 z-90">
                 <div onClick={toggleCart} className="flex justify-center text-2xl cursor-pointer"><CgCloseO /></div>
                 <h2 className="heading font-semibold md:font-bold text-[#b6464c] text-base md:text-xl">Shopping Cart</h2>
                 <ol className="list-disc list-outside font-normal flex flex-col w-full gap-y-2 text-sm md:text-lg pl-2 text-black">
@@ -177,15 +177,20 @@ const Navbar = () => {
                             <div className="item-info flex w-1/6 font-serif flex  gap-x-2 w-fit">
                                 <div className="">Items: </div>
                                 <div className="count text-slate-800">5</div>
-                                
+
                             </div>
                             <div className="item-total w-1/6 font-serif">
                                 ₹500.00
                             </div>
                         </div>
                     </div>
-                    <div className="">
-                        <button className='text-lg text-white font-medium cursor-pointer bg-[#b6464c] rounded-md px-4 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
+                    <div className="flex justify-around">
+                        <div className="">
+                            <button className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
+                        </div>
+                        <div className="">
+                            <button className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md px-2 md:px-4 py-1 flex items-center gap-x-2'><RiDeleteBin6Line />Clear</button>
+                        </div>
                     </div>
                 </ol>
 
