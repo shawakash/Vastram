@@ -5,6 +5,7 @@ import { BiNotepad } from 'react-icons/bi'
 import { CgProfile, CgCloseO } from 'react-icons/cg'
 import { HiOutlineLogout, HiOutlineMinusCircle } from 'react-icons/hi'
 import { RiAddCircleLine } from 'react-icons/ri'
+import { BsFillBagCheckFill } from 'react-icons/bs'
 
 const Navbar = () => {
     const sideCartRef = useRef();
@@ -43,7 +44,7 @@ const Navbar = () => {
             </ul>
             <ul className="flex gap-x-5 text-sm font-medium md:text-lg justify-between items-center lg:gap-x-8 cursor-pointer">
                 {/* <Link href={'/checkout'}> */}
-                    <li onClick={toggleCart} className=""><RiShoppingCartFill className='text-base md:text-lg lg:text-[25px]' /></li>
+                <li onClick={toggleCart} className=""><RiShoppingCartFill className='text-base md:text-lg lg:text-[25px]' /></li>
                 {/* </Link> */}
                 <Link href={'/order'}>
                     <li className=""><BiNotepad className='text-base md:text-lg lg:text-[25px]' /></li>
@@ -52,55 +53,142 @@ const Navbar = () => {
                     <li className=""><HiOutlineLogout className='text-base md:text-lg lg:text-[25px]' /></li>
                 </Link>
             </ul>
-            <div ref={sideCartRef} className="sideCart absolute top-24 right-24 flex flex-col gap-y-5 p-10 bg-white bg-opacity-95 rounded-xl md:top-0 right-0 tracking-wide transform transition-transform translate-x-full w-72 md:w-96">
+            <div ref={sideCartRef} className="sideCart absolute top-24 right-24 flex flex-col gap-y-5 p-10 bg-[#e5bfc1] bg-opacity-95 rounded-xl rounded-t-none rounded-r-none md:top-0 right-0 tracking-wide transform transition-transform translate-x-full w-72 md:w-96">
                 <div onClick={toggleCart} className="flex justify-center text-2xl cursor-pointer"><CgCloseO /></div>
-                <h2 className="heading font-semibold text-base md:text-xl">Shopping Cart</h2>
-                <ol className="list-decimal font-normal flex flex-col w-full gap-y-2 text-sm md:text-lg pl-2">
-                    <li className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
-                        <div className="product w-2/3 ">Product Name</div>
-                        <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
-                            <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
-                            <div className="count text-slate-800">5</div>
-                            <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
-                        </div>
-                        <div className="item-total w-1/6 font-serif">
-                        ₹500.00
-                        </div>
-                    </li>
-                    <li className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
-                        <div className="product w-2/3 ">Product Name</div>
-                        <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
-                            <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
-                            <div className="count text-slate-800">5</div>
-                            <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
-                        </div>
-                        <div className="item-total w-1/6 font-serif">
-                        ₹500.00
+                <h2 className="heading font-semibold md:font-bold text-[#b6464c] text-base md:text-xl">Shopping Cart</h2>
+                <ol className="list-disc list-outside font-normal flex flex-col w-full gap-y-2 text-sm md:text-lg pl-2 text-black">
+                    <li className="">
+                        <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
+
+                            <div className="product w-2/3 ">Product Name</div>
+                            <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
+                                <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
+                                <div className="count text-slate-800">5</div>
+                                <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
+                            </div>
+                            <div className="item-total w-1/6 font-serif">
+                                ₹500.00
+                            </div>
                         </div>
                     </li>
-                    <li className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
-                        <div className="product w-2/3 ">Product Name</div>
-                        <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
-                            <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
-                            <div className="count text-slate-800">5</div>
-                            <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
-                        </div>
-                        <div className="item-total w-1/6 font-serif">
-                        ₹500.00
-                        </div>
-                    </li>
-                    <li className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
-                        <div className="product w-2/3 ">Product Name</div>
-                        <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
-                            <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
-                            <div className="count text-slate-800">5</div>
-                            <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
-                        </div>
-                        <div className="item-total w-1/6 font-serif">
-                        ₹500.00
+                    <li className="">
+                        <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
+
+                            <div className="product w-2/3 ">Product Name</div>
+                            <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
+                                <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
+                                <div className="count text-slate-800">5</div>
+                                <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
+                            </div>
+                            <div className="item-total w-1/6 font-serif">
+                                ₹500.00
+                            </div>
                         </div>
                     </li>
+                    <li className="">
+                        <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
+
+                            <div className="product w-2/3 ">Product Name</div>
+                            <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
+                                <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
+                                <div className="count text-slate-800">5</div>
+                                <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
+                            </div>
+                            <div className="item-total w-1/6 font-serif">
+                                ₹500.00
+                            </div>
+                        </div>
+                    </li>
+                    <li className="">
+                        <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
+
+                            <div className="product w-2/3 ">Product Name</div>
+                            <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
+                                <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
+                                <div className="count text-slate-800">5</div>
+                                <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
+                            </div>
+                            <div className="item-total w-1/6 font-serif">
+                                ₹500.00
+                            </div>
+                        </div>
+                    </li>
+                    <li className="">
+                        <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
+
+                            <div className="product w-2/3 ">Product Name</div>
+                            <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
+                                <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
+                                <div className="count text-slate-800">5</div>
+                                <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
+                            </div>
+                            <div className="item-total w-1/6 font-serif">
+                                ₹500.00
+                            </div>
+                        </div>
+                    </li>
+                    <li className="">
+                        <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
+
+                            <div className="product w-2/3 ">Product Name</div>
+                            <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
+                                <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
+                                <div className="count text-slate-800">5</div>
+                                <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
+                            </div>
+                            <div className="item-total w-1/6 font-serif">
+                                ₹500.00
+                            </div>
+                        </div>
+                    </li>
+                    <li className="">
+                        <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
+
+                            <div className="product w-2/3 ">Product Name</div>
+                            <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
+                                <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
+                                <div className="count text-slate-800">5</div>
+                                <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
+                            </div>
+                            <div className="item-total w-1/6 font-serif">
+                                ₹500.00
+                            </div>
+                        </div>
+                    </li>
+                    <li className="">
+                        <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
+
+                            <div className="product w-2/3 ">Product Name</div>
+                            <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
+                                <div className="incr text-lg text-slate-700"><RiAddCircleLine /></div>
+                                <div className="count text-slate-800">5</div>
+                                <div className="decr text-slate-700"><HiOutlineMinusCircle /></div>
+                            </div>
+                            <div className="item-total w-1/6 font-serif">
+                                ₹500.00
+                            </div>
+                        </div>
+                    </li>
+                    <div className="text-black flex flex-col gap-y-2 my-2">
+                        <hr />
+                        <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
+
+                            <div className="product w-2/3 ">Summary --&gt; </div>
+                            <div className="item-info flex w-1/6 font-serif flex  gap-x-2 w-fit">
+                                <div className="">Items: </div>
+                                <div className="count text-slate-800">5</div>
+                                
+                            </div>
+                            <div className="item-total w-1/6 font-serif">
+                                ₹500.00
+                            </div>
+                        </div>
+                    </div>
+                    <div className="">
+                        <button className='text-lg text-white font-medium cursor-pointer bg-[#b6464c] rounded-md px-4 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
+                    </div>
                 </ol>
+
             </div>
         </nav>
     );
