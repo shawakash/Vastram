@@ -1,501 +1,68 @@
 import Image from 'next/image'
+import Link from 'next/link';
 import React from 'react'
+import mongoose from 'mongoose'
+import Product from '../../models/Product';
 
-const Shirts = () => {
+const Shirts = ({ products }) => {
     return (
         <>
             <section>
                 <div className="flex flex-wrap gap-12 justify-center items-center">
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={300} height={50} src='https://m.media-amazon.com/images/I/61p21cELnEL._UL1500_.jpg' alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={200} height={50} src='https://m.media-amazon.com/images/I/51dBqMO70iL._UY741_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
-                    <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
-                        <img width={150} height={50} src='https://m.media-amazon.com/images/I/61GmEjXOdzL._AC_UL400_.jpg' alt='Shirt Image' className='object-contain rounded-2xl shadow-lg ' />
-                        <p className="text-lg font-serif font-normal">T-shirt</p>
-                        <h3 className="text-3xl font-head font-bold text-[#b6464c]">The Camiz</h3>
-                        <p className="price font-serif font-semibold text-slate-700">₹ 4999.00</p>
-                        <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                            <span className='font-semibold font-sans'>Available Size/s: </span>
-                            S, M, L, XL, XXL</p>
-                    </div>
+                    {products.map((item) => {
+                        return (
+                            <Link passHref={true} key={item._id} href={`/product/${item.slug}`}>
+                                <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
+
+                                    <img width={300} height={50} src={`${item.img}`} alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
+                                    <p className="text-lg font-serif font-normal">{item.category.toUpperCase()}</p>
+                                    <h3 className="text-3xl font-head font-bold text-[#b6464c]">{item.title}</h3>
+                                    <p className="desc w-48 text-center text-clip overflow-hidden font-normal text-slate-800 py-2">{item.desc.slice(0, 50)} ...</p>
+                                    <p className="price font-serif font-semibold text-slate-700">₹ {item.price}</p>
+                                    <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
+                                        <span className='font-semibold font-sans'>Available Size/s: </span>
+                                        {item.size} ({item.color})</p>
+                                </div>
+                            </Link>
+                        );
+                    })}
+
                 </div>
             </section>
         </>
     )
 }
+
+export async function getServerSideProps(context) {
+    
+    let products = await fetch(`http://localhost:3000/api/getProducts`).then(a => a.json()).then(b => b.result);
+    // console.log('Products', products)
+    
+    return {
+        props: { products }
+    }
+}
+
+//  Use the below while production
+
+// export async function getServerSideProps(context) {
+//     if (!mongoose.connections[0].readyState) {
+//         await mongoose.connect(process.env.MONGOOSE_URI,
+//             {
+//                 useNewUrlParser: true,
+//                 useUnifiedTopology: true
+//             },
+//         )
+//             .then((e) => console.log('Database Connected.'))
+//             .catch(console.error);
+//     }
+//     let products = await Product.find();
+
+//     return {
+//         props: {
+//             product: JSON.parse(JSON.stringify(products)),
+//         }
+//     }
+// }
 
 export default Shirts

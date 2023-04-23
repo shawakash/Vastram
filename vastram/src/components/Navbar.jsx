@@ -11,7 +11,6 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
     const sideCartRef = useRef();
-    console.log(cart)
     const toggleCart = () => {
         if (sideCartRef.current.classList.contains('translate-x-full')) {
             sideCartRef.current.classList.remove('translate-x-full')
