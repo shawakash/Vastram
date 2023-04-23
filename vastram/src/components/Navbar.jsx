@@ -56,7 +56,7 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                     <li className=""><HiOutlineLogout className='text-base md:text-lg lg:text-[25px]' /></li>
                 </Link>
             </ul>
-            <div ref={sideCartRef} className="sideCart absolute top-24 right-24 flex flex-col gap-y-5 p-10 bg-[#e5bfc1] bg-opacity-95 rounded-xl md:rounded-t-none md: rounded-r-none md:top-0 right-0 tracking-wide transform transition-transform translate-x-full w-72 md:w-96 z-90">
+            <div ref={sideCartRef} className={`sideCart absolute top-24  flex flex-col gap-y-5 p-10 bg-[#e5bfc1] bg-opacity-95 rounded-xl md:rounded-t-none md: rounded-r-none md:top-0 right-0 tracking-wide transform transition-transform ${Object.keys(cart).length != 0 ? 'translate-x-0' : 'translate-x-full'} w-72 md:w-96 z-90`}>
                 <div onClick={toggleCart} className="flex justify-center text-2xl cursor-pointer"><CgCloseO /></div>
                 <h2 className="heading font-semibold md:font-bold text-[#b6464c] text-base md:text-xl">Shopping Cart</h2>
                 <ol className="list-disc list-outside font-normal flex flex-col w-full gap-y-2 text-sm md:text-lg pl-2 text-black">
@@ -66,8 +66,8 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                                 <li className="" key={k}>
                                     <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
 
-                                        <div className="product w-2/3 ">{cart[k]?.name.slice(0, 13)}..</div>
-                                        <div className="item-info w-1/6 font-serif flex items-center gap-x-2 w-fit">
+                                        <div className="product w-1/2 ">{cart[k]?.name.slice(0, 13)}..</div>
+                                        <div className="item-info w-1/3 font-serif flex items-center gap-x-2">
                                             <div onClick={(_) => {
                                                 addInCart(k, 1, 534, 'M', "The Dohti(M, White)", "White")
                                                 toast.success("Added One Item To The Cart :) ")
@@ -92,8 +92,8 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
 
                             <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
 
-                                <div className="product w-2/3 ">Summary --&gt; </div>
-                                <div className="item-info flex w-1/6 font-serif flex  gap-x-2 w-fit">
+                                <div className="product w-1/2 ">Summary --&gt; </div>
+                                <div className="item-info flex font-serif gap-x-2 w-1/3">
                                     <div className="">Items: </div>
                                     <div className="count text-slate-800">5</div>
 
@@ -106,7 +106,9 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                         </div>
                             <div className="flex justify-around">
                                 <div className="">
-                                    <button className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
+                                    <Link href={'/checkout'}>
+                                    <button onClick={toggleCart} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
+                                    </Link>
                                 </div>
                                 <div className="">
                                     <button onClick={(_) => {
