@@ -43,7 +43,7 @@ const Slug = ({addInCart}) => {
             <section className="text-gray-600 body-font overflow-hidden">
                 <div className="container px-5 pt-12 mx-auto">
                     <div className="lg:w-4/5 mx-auto flex flex-wrap items-center justify-center ">
-                        <img alt="ecommerce" className="lg:w-[250px] w-full lg:h-[400px] h-64 object-top w-40 rounded" src="https://m.media-amazon.com/images/I/61NajWdsBOL._AC_UL400_.jpg" />
+                        <img alt="ecommerce" className="lg:w-[250px]  lg:h-[400px] object-top  rounded" src="https://m.media-amazon.com/images/I/61NajWdsBOL._AC_UL400_.jpg" />
                         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                             <h2 className="text-sm title-font text-gray-500 tracking-widest">BRAND NAME</h2>
                             <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">The Catcher in the Rye</h1>

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { useRef } from 'react'
-import { RiShoppingCartFill } from 'react-icons/ri'
+import { RiAccountCircleFill, RiShoppingCartFill } from 'react-icons/ri'
 import { BiNotepad } from 'react-icons/bi'
 import { CgProfile, CgCloseO } from 'react-icons/cg'
 import { HiOutlineLogout, HiOutlineMinusCircle } from 'react-icons/hi'
@@ -51,6 +51,9 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                 {/* </Link> */}
                 <Link href={'/order'}>
                     <li className=""><BiNotepad className='text-base md:text-lg lg:text-[25px]' /></li>
+                </Link>
+                <Link href={'/login'}>
+                    <li className=""><RiAccountCircleFill className='text-base md:text-lg lg:text-[25px]' /></li>
                 </Link>
                 <Link href={'/logout'}>
                     <li className=""><HiOutlineLogout className='text-base md:text-lg lg:text-[25px]' /></li>
