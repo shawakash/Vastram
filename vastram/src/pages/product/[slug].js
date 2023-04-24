@@ -42,9 +42,10 @@ const Slug = ({ addInCart, product, variants }) => {
     const sizeRef = useRef();
     const [color, setColor] = useState(Object.keys(variants)[0]);
     const [qty, setQty] = useState(0);
-
+    const [size, setSize] = useState(Object.keys(variants[Object.keys(variants)[0]])[0])
     const selectColor = (e) => {
         setColor(e.target.id);
+        setSize(Object.keys(variants[e.target.id])[0])
     }
 
 
@@ -55,8 +56,8 @@ const Slug = ({ addInCart, product, variants }) => {
                     <div className="lg:w-4/5 mx-auto flex flex-wrap items-center justify-center ">
                         <img alt="ecommerce" className="lg:w-[250px]  lg:h-[400px] object-scale-down object-top h-72  rounded" src={`${product?.img}`} />
                         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 md:justify-start md:items-start flex justify-center items-center flex-col">
-                            <h2 className="text-sm title-font text-gray-500 tracking-widest">Vastram</h2>
-                            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product?.title}</h1>
+                            <h2 className="text-lg md:text-xl title-font text-gray-500 tracking-widest">Vastram</h2>
+                            <h1 className="text-gray-900 text-3xl title-f font-medium mb-1">{product?.title} ({size}/{color})</h1>
                             <div className="flex mb-4">
                                 <span className="flex items-center">
                                     <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-red-500" viewBox="0 0 24 24">
@@ -115,11 +116,11 @@ const Slug = ({ addInCart, product, variants }) => {
                                 </div>
                                 <div className="flex mx-1 items-center ">
                                     <span className="mr-3">Size</span>
-                                    <div className="relative">
-                                        <select ref={sizeRef} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-500 text-base pl-3 pr-10">
+                                    <div className="relative -z-20">
+                                        <select ref={sizeRef} onChange={(e) => {setSize(e.target.value)}} className=" rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-500 text-base pl-3 pr-10">
                                             {(Object.keys(variants[color])).map(size => {
                                                 return (
-                                                    <option key={size}>{size}</option>
+                                                    <option key={size} >{size}</option>
                                                 );
                                             })}
                                         </select>
@@ -137,7 +138,7 @@ const Slug = ({ addInCart, product, variants }) => {
                             <div className="flex gap-x-6 w-full items-center md:gap-x-10">
                                 <span className="title-font font-medium font-serif md:text-2xl text-lg text-gray-900 w-20 sm:w-fit">₹ 500.00</span>
                                 <button onClick={() => {
-                                    addInCart(product._id, qty, product.price, sizeRef.current.value, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
+                                    addInCart(variants[color][size]['slug'], qty, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
 
                                     toast.success("Added item in cart :) ")
                                 }} className='md:text-lg text-lg text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><MdAddCircle /></button>

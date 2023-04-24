@@ -62,7 +62,7 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                     <li className=""><HiOutlineLogout className='text-base md:text-lg lg:text-[25px]' /></li>
                 </Link>
             </ul>
-            <div ref={sideCartRef} className={`sideCart absolute top-24  flex flex-col gap-y-5 p-10 bg-[#e5bfc1] bg-opacity-95 rounded-xl md:rounded-t-none md: rounded-r-none md:top-0 right-0 tracking-wide transform transition-transform ${Object.keys(cart).length != 0 ? 'translate-x-0' : 'translate-x-full'} w-72 md:w-96 z-90`}>
+            <div ref={sideCartRef} className={`sideCart absolute top-24  flex flex-col gap-y-5 p-10 bg-[#e5bfc1] bg-opacity-95 rounded-xl md:rounded-t-none md: rounded-r-none md:top-0 right-0 tracking-wide transform transition-transform ${Object.keys(cart).length != 0 ? 'translate-x-0' : 'translate-x-full'} w-72 md:w-96 z-50`}>
                 <div onClick={toggleCart} className="flex justify-center text-2xl cursor-pointer"><CgCloseO /></div>
                 <h2 className="heading font-semibold md:font-bold text-[#b6464c] text-base md:text-xl">Shopping Cart</h2>
                 <ol className="list-disc list-outside font-normal flex flex-col w-full gap-y-2 text-sm md:text-lg pl-2 text-black">
@@ -72,7 +72,7 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                                 <li className="" key={k}>
                                     <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
 
-                                        <div className="product w-1/2 ">{cart[k]?.name.slice(0, 13)}..</div>
+                                        <div className="product w-1/2 tracking-tighter text-base">{cart[k]?.name}</div>
                                         <div className="item-info w-1/3 font-serif flex items-center gap-x-2">
                                             <div onClick={(_) => {
                                                 addInCart(k, 1, 534, 'M', "The Dohti(M, White)", "White")
