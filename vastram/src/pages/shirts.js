@@ -8,20 +8,44 @@ const Shirts = ({ products }) => {
     return (
         <>
             <section>
-                <div className="flex flex-wrap gap-12 justify-center items-center">
-                    {products.map((item) => {
+                <div className="flex flex-wrap gap-12 justify-center product[item]s-center">
+                    {Object.keys(products).map((item) => {
                         return (
-                            <Link passHref={true} key={item._id} href={`/product/${item.slug}`}>
+                            <Link passHref={true} key={products[item]._id} href={`/product/${products[item].slug}`}>
                                 <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
 
-                                    <img width={300} height={50} src={`${item.img}`} alt='Shirt Image' className='object-fill rounded-2xl shadow-lg ' />
-                                    <p className="text-lg font-serif font-normal">{item.category.toUpperCase()}</p>
-                                    <h3 className="text-3xl font-head font-bold text-[#b6464c]">{item.title}</h3>
-                                    <p className="desc w-48 text-center text-clip overflow-hidden font-normal text-slate-800 py-2">{item.desc.slice(0, 50)} ...</p>
-                                    <p className="price font-serif font-semibold text-slate-700">₹ {item.price}</p>
-                                    <p className="size font-serif font-bold text-slate-600 flex gap-x-4">
-                                        <span className='font-semibold font-sans'>Available Size/s: </span>
-                                        {item.size} ({item.color})</p>
+                                    <img width={300} height={50} src={`${products[item].img}`} alt='Shirt Image' className='object-scale-down object-top h-72 rounded-2xl shadow-lg' />
+                                    <p className="text-lg font-serif font-normal">{products[item].category.toUpperCase()}</p>
+                                    <h3 className="text-3xl font-head font-bold text-[#b6464c]">{products[item].title}</h3>
+                                    <p className="desc w-48 text-center text-clip overflow-hidden font-normal text-slate-800 py-2">{products[item].desc.slice(0, 50)} ...</p>
+                                    <p className="price font-serif font-semibold text-slate-700">₹ {products[item].price}</p>
+                                    <div className="size w-full justify-around font-serif font-light text-slate-600 flex  items-center gap-x-4 gap-y-2 ">
+                                        <div className="flex flex-col gap-y-2">
+
+                                            <div className='font-semibold font-sans w-fit'>Size/s: </div>
+                                            <div className="">
+                                                {products[item].size.includes('S') && <span className='border border-gray-500 mx-1 p-1'>S</span>}
+                                                {products[item].size.includes('M') && <span className='border border-gray-500 mx-1 p-1'>M</span>}
+                                                {products[item].size.includes('L') && <span className='border border-gray-500 mx-1 p-1'>L</span>}
+                                                {products[item].size.includes('XL') && <span className='border border-gray-500 mx-1 p-1'>XL</span>}
+                                                {products[item].size.includes('XXL') && <span className='border border-gray-500 mx-1 p-1'>XXL</span>}
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col gap-y-2">
+                                            <div className='font-semibold font-sans w-fit'>Color/s: </div>
+                                            <div className="">
+                                                {products[item].color.includes('red') && <button className="border-2 border-gray-300 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none"></button>}
+                                                {products[item].color.includes('Black') && <button className="border-2 border-gray-300 ml-1 bg-black rounded-full w-6 h-6 focus:outline-none"></button>}
+                                                {products[item].color.includes('Blue') && <button className="border-2 border-gray-300 ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none"></button>}
+                                                {products[item].color.includes('White') && <button className="border-2 border-gray-300 ml-1 bg-white rounded-full w-6 h-6 focus:outline-none"></button>}
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-around w-full my-2 text-base font-medium text-gray-600">
+                                        <div className="">Stocks: </div>
+                                        <div className="font-serif font-semibold">{products[item].availqty}</div>
+                                    </div>
                                 </div>
                             </Link>
                         );
@@ -34,10 +58,10 @@ const Shirts = ({ products }) => {
 }
 
 export async function getServerSideProps(context) {
-    
+
     let products = await fetch(`http://localhost:3000/api/getProducts`).then(a => a.json()).then(b => b.result);
     // console.log('Products', products)
-    
+
     return {
         props: { products }
     }
@@ -57,10 +81,35 @@ export async function getServerSideProps(context) {
 //             .catch(console.error);
 //     }
 //     let products = await Product.find();
+//      let tshirts = {};
+
+//      for (let product[item] of products) {
+//          if (product[item].title in tshirts) {
+//              if (!tshirts[product[item].title].color.includes(product[item].color) && product[item].availqty) {
+//                  tshirts[product[item].title].color = [...tshirts[product[item].title].color, product[item].color];
+//                  // (tshirts[product[item].title].color).push(product[item].color);
+//              }
+//              if (!tshirts[product[item].title].size.includes(product[item].size) && product[item].availqty) {
+//                  tshirts[product[item].title].size = [...tshirts[product[item].title].size, product[item].size];
+//                  // (tshirts[product[item].title].size).push(product[item].size);
+//              }
+//              tshirts[product[item].title].availqty += product[item].availqty;
+
+//          } else {
+//              tshirts[product[item].title] = JSON.parse(JSON.stringify(product[item]));
+
+//              if (product[item].availqty > 0) {
+//                  tshirts[product[item].title].color = [product[item].color];
+//                  tshirts[product[item].title].size = [product[item].size];
+//                  tshirts[product[item].title].availqty += product[item].availqty;
+//              }
+
+//          }
+//      }
 
 //     return {
 //         props: {
-//             product: JSON.parse(JSON.stringify(products)),
+//             product: JSON.parse(JSON.stringify(tshirts)),
 //         }
 //     }
 // }

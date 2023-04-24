@@ -11,6 +11,10 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
     const sideCartRef = useRef();
+    let totalItem = 0;
+    Object.keys(cart).map(item => {
+        totalItem += parseInt(cart[item].qty);
+    })
     const toggleCart = () => {
         if (sideCartRef.current.classList.contains('translate-x-full')) {
             sideCartRef.current.classList.remove('translate-x-full')
@@ -97,7 +101,7 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                                 <div className="product w-1/2 ">Summary --&gt; </div>
                                 <div className="item-info flex font-serif gap-x-2 w-1/3">
                                     <div className="">Items: </div>
-                                    <div className="count text-slate-800">5</div>
+                                    <div className="count text-slate-800">{totalItem}</div>
 
                                 </div>
                                 <div className="item-total w-1/6 font-serif">
