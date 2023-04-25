@@ -4,12 +4,13 @@ import React from 'react'
 import mongoose from 'mongoose'
 import Product from '../../models/Product';
 
-const Shirts = ({ products }) => {
+const Suits = ({ products }) => {
     return (
         <>
             <section>
                 <div className="flex flex-wrap gap-12 justify-center product[item]s-center">
-                    {Object.keys(products).map((item) => {
+                    {!Object.keys(products).length? <div className="text-lg font-medium">No suits Stocks, Stay Tunned!</div>  : ''}
+                    {products && Object.keys(products).map((item) => {
                         return (
                             <Link passHref={true} key={products[item]._id} href={`/product/${products[item].slug}`}>
                                 <div className="flex flex-col gap-y-2 shadow-xl hover:shadow-2xl tracking-wide transition-all rounded-2xl items-center justify-center p-4">
@@ -38,7 +39,7 @@ const Shirts = ({ products }) => {
                                                 {products[item].color.includes('Black') && <button className="border-2 border-gray-300 ml-1 bg-black rounded-full w-6 h-6 focus:outline-none"></button>}
                                                 {products[item].color.includes('Blue') && <button className="border-2 border-gray-300 ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none"></button>}
                                                 {products[item].color.includes('White') && <button className="border-2 border-gray-300 ml-1 bg-white rounded-full w-6 h-6 focus:outline-none"></button>}
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -57,61 +58,61 @@ const Shirts = ({ products }) => {
     )
 }
 
-export async function getServerSideProps(context) {
-
-    let products = await fetch(`http://localhost:3000/api/getProducts`).then(a => a.json()).then(b => b.result);
-    // console.log('Products', products)
-
-    return {
-        props: { products }
-    }
-}
-
-//  Use the below while production
-
 // export async function getServerSideProps(context) {
-//     if (!mongoose.connections[0].readyState) {
-//         await mongoose.connect(process.env.MONGOOSE_URI,
-//             {
-//                 useNewUrlParser: true,
-//                 useUnifiedTopology: true
-//             },
-//         )
-//             .then((e) => console.log('Database Connected.'))
-//             .catch(console.error);
-//     }
-//     let products = await Product.find({category: 'shirts'});
-//     let tshirts = {};
 
-//     for(let item of products) {
-//         if (item.title in tshirts) {
-//             if (!tshirts[item.title].color.includes(item.color) && item.availqty) {
-//                 // tshirts[item.title].color = [...tshirts[item.title].color, item.color];
-//                 (tshirts[item.title].color).push(item.color);
-//             }
-//             if (!tshirts[item.title].size.includes(item.size) && item.availqty) {
-//                 // tshirts[item.title].size = [...tshirts[item.title].size, product[item].size];
-//                 (tshirts[item.title].size).push(item.size);
-//             }
-//             tshirts[item.title].availqty += item.availqty;
+//     let products = await fetch(`http://localhost:3000/api/getProducts`).then(a => a.json()).then(b => b.result);
+//     // console.log('Products', products)
 
-//         } else {
-//             tshirts[item.title] = JSON.parse(JSON.stringify(item));
-
-//             if (item.availqty > 0) {
-//                 tshirts[item.title].color = [item.color];
-//                 tshirts[item.title].size = [item.size];
-//                 tshirts[item.title].availqty += item.availqty;
-//             }
-
-//         }
-//     }
-//     console.log(tshirts)
 //     return {
-//         props: {
-//             products: JSON.parse(JSON.stringify(tshirts)),
-//         }
+//         props: { products }
 //     }
 // }
 
-export default Shirts
+//  Use the below while production
+
+export async function getServerSideProps(context) {
+    if (!mongoose.connections[0].readyState) {
+        await mongoose.connect(process.env.MONGOOSE_URI,
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            },
+        )
+            .then((e) => console.log('Database Connected.'))
+            .catch(console.error);
+    }
+    let products = await Product.find({category: 'suits'});
+    let suits = {};
+
+    for(let item of products) {
+        if (item.title in suits) {
+            if (!suits[item.title].color.includes(item.color) && item.availqty) {
+                // suits[item.title].color = [...suits[item.title].color, item.color];
+                (suits[item.title].color).push(item.color);
+            }
+            if (!suits[item.title].size.includes(item.size) && item.availqty) {
+                // suits[item.title].size = [...suits[item.title].size, product[item].size];
+                (suits[item.title].size).push(item.size);
+            }
+            suits[item.title].availqty += item.availqty;
+
+        } else {
+            suits[item.title] = JSON.parse(JSON.stringify(item));
+
+            if (item.availqty > 0) {
+                suits[item.title].color = [item.color];
+                suits[item.title].size = [item.size];
+                suits[item.title].availqty += item.availqty;
+            }
+
+        }
+    }
+    console.log(suits)
+    return {
+        props: {
+            products: JSON.parse(JSON.stringify(suits)),
+        }
+    }
+}
+
+export default Suits

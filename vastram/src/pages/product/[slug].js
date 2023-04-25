@@ -189,7 +189,7 @@ export async function getServerSideProps(context) {
     }
 
     let product = await Product.findOne({ slug: context.query.slug });
-    const variants = await Product.find({ title: product?.title });
+    const variants = await Product.find({ title: product?.title, category: product.category });
     let colorSizeSlug = {}  // {red: {xl: {slug: "the camis"}}}
     for (let item of variants) {
         if (Object.keys(colorSizeSlug).includes(item.color)) {
