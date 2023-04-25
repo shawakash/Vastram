@@ -1,8 +1,45 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import { useRouter } from 'next/router';
+import React, { useRef, useState } from 'react'
+import { Toaster, toast } from 'react-hot-toast';
 
 const Signup = () => {
+    const router = useRouter();
+    const nameRef = useRef(null);
+    const passRef = useRef(null);
+    const emailRef = useRef(null);
+    const addressRef = useRef(null);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const body = {
+            name: nameRef.current.value, 
+            email: emailRef.current.value, 
+            password: passRef.current.value, 
+            address: addressRef.current.value
+        };
+        const response = await fetch(`http://localhost:3000/api/signup`, {
+            method: 'POST', 
+            body: JSON.stringify(body)
+        });
+        const data = await response.json();
+        if(data.status == 'success') {
+            toast.success("Created Account");
+            nameRef.current.value =''
+            addressRef.current.value =''
+            passRef.current.value =''
+            emailRef.current.value =''
+            router.push('/');
+
+        } else { 
+            if(data.message.includes("duplicate")) {
+                toast.error("Duplicate Emails")
+            }
+        }
+        
+    }
+
     return (
         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 w-full tracking-wide">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -11,23 +48,23 @@ const Signup = () => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" action="#" method="POST">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label for="name" className="block text-sm font-medium leading-6 text-gray-900">Your Name</label>
                             <div className="mt-2">
-                                <input id="name" name="name" type="text" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
+                                <input ref={nameRef}  id="name" name="name" type="text" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
                             </div>
                         </div>
                         <div>
                             <label for="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                             <div className="mt-2">
-                                <input id="email" name="email" type="email" autocomplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
+                                <input ref={emailRef}  id="email" name="email" type="email" autocomplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
                             </div>
                         </div>
                         <div>
-                            <label for="phone" className="block text-sm font-medium leading-6 text-gray-900">Phone</label>
+                            <label for="address" className="block text-sm font-medium leading-6 text-gray-900">Address</label>
                             <div className="mt-2">
-                                <input id="phone" name="phone" type="number" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
+                                <input ref={addressRef}  id="phone" name="phone" type="text" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
                             </div>
                         </div>
                         
@@ -36,15 +73,15 @@ const Signup = () => {
                                 <label for="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
                             </div>
                             <div className="mt-2">
-                                <input id="password" name="password" type="password" autocomplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6" />
+                                <input  id="password" name="password" type="password" autocomplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6" />
                             </div>
                         </div>
                         <div>
                             <div className="flex items-center justify-between">
-                                <label for="cpassword" className="block text-sm font-medium leading-6 text-gray-900">Confirm Password</label>
+                                <label  for="cpassword" className="block text-sm font-medium leading-6 text-gray-900">Confirm Password</label>
                             </div>
                             <div className="mt-2">
-                                <input id="cpassword" name="cpassword" type="password" autocomplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6" />
+                                <input ref={passRef}  id="cpassword" name="cpassword" type="password" autocomplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6" />
                             </div>
                         </div>
 
@@ -58,6 +95,7 @@ const Signup = () => {
                         <Link href={'/login'} className="font-semibold leading-6 text-[#b6464c] hover:text-[#b6464c]"><span> Login</span></Link>
                     </p>
                 </div>
+                <Toaster />
             </div>
     )
 }
