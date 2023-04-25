@@ -2,12 +2,14 @@ import Footer from 'bring/components/Footer';
 import Navbar from 'bring/components/Navbar';
 import 'bring/styles/globals.css'
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 export default function App({ Component, pageProps }) {
 
   const [cart, setCart] = useState({});
   const [subTotal, setSubTotal] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     try {
@@ -50,6 +52,21 @@ export default function App({ Component, pageProps }) {
     saveCart(myCart)
   }
 
+  const buyNow = (itemCode, qty, price, size, name, color) => {
+    setCart({});
+    let myCart ={};
+    myCart[itemCode] = {
+      qty,
+        price,
+        size,
+        name,
+        color
+    }
+    setCart(myCart);
+    saveCart(myCart);
+    router.push(`/checkout`);
+  }
+
   const clearCart = (_) => {
     setCart({});
     saveCart({});
@@ -76,7 +93,7 @@ export default function App({ Component, pageProps }) {
     </Head>
     <Navbar addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart}/>
     <main className="flex min-h-screen flex-col items-center justify-between md:px-24 px- py-5 ">
-      <Component {...pageProps} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart}/>
+      <Component {...pageProps} buyNow={buyNow} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart}/>
     </main>
     <Footer />
   </>

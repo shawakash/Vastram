@@ -10,7 +10,7 @@ import Product from '../../../models/Product';
 import mongoose from 'mongoose';
 
 
-const Slug = ({ addInCart, product, variants }) => {
+const Slug = ({ addInCart, product, variants, buyNow }) => {
     const router = useRouter();
     const { slug } = router.query;
     const pincodeRef = useRef();
@@ -106,18 +106,18 @@ const Slug = ({ addInCart, product, variants }) => {
                                             <button key={cl} onClick={selectColor}  id={cl} className={`border-2 border-gray-300 ml-1 bg-${cl}-500  rounded-full w-6 h-6 focus:outline-none`}></button>
                                         );
                                     })} */}
-                                        {Object.keys(variants).includes('Red')  && <button onClick={selectColor} id='Red' className={`border-2 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none ${color == 'Red' ? 'border-black' : 'border-gray-400' }`}></button>}
-                                        {Object.keys(variants).includes('Black')  && <button onClick={selectColor} id='Black' className={`border-2 ml-1 bg-black rounded-full w-6 h-6 focus:outline-none ${color == 'Black' ? 'border-black' : 'border-gray-400' }`}></button>}
-                                        {Object.keys(variants).includes('Brown')  && <button onClick={selectColor} id='Brown' className={`border-2 ml-1 bg-amber-700 rounded-full w-6 h-6 focus:outline-none ${color == 'Brown' ? 'border-black' : 'border-gray-400' }`}></button>}
-                                        {Object.keys(variants).includes('Blue') && <button onClick={selectColor} id='Blue' className={`border-2 ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none ${color == 'Blue' ? 'border-black' : 'border-gray-400' }`}></button>}
-                                        {Object.keys(variants).includes('White')  && <button onClick={selectColor} id='White' className={`border-2 ml-1 bg-white rounded-full w-6 h-6 focus:outline-none ${color == 'White' ? 'border-black' : 'border-gray-400' }`}></button>}
+                                        {Object.keys(variants).includes('Red') && <button onClick={selectColor} id='Red' className={`border-2 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none ${color == 'Red' ? 'border-black' : 'border-gray-400'}`}></button>}
+                                        {Object.keys(variants).includes('Black') && <button onClick={selectColor} id='Black' className={`border-2 ml-1 bg-black rounded-full w-6 h-6 focus:outline-none ${color == 'Black' ? 'border-black' : 'border-gray-400'}`}></button>}
+                                        {Object.keys(variants).includes('Brown') && <button onClick={selectColor} id='Brown' className={`border-2 ml-1 bg-amber-700 rounded-full w-6 h-6 focus:outline-none ${color == 'Brown' ? 'border-black' : 'border-gray-400'}`}></button>}
+                                        {Object.keys(variants).includes('Blue') && <button onClick={selectColor} id='Blue' className={`border-2 ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none ${color == 'Blue' ? 'border-black' : 'border-gray-400'}`}></button>}
+                                        {Object.keys(variants).includes('White') && <button onClick={selectColor} id='White' className={`border-2 ml-1 bg-white rounded-full w-6 h-6 focus:outline-none ${color == 'White' ? 'border-black' : 'border-gray-400'}`}></button>}
 
                                     </div>
                                 </div>
                                 <div className="flex mx-1 items-center ">
                                     <span className="mr-3">Size</span>
                                     <div className="relative -z-20">
-                                        <select ref={sizeRef} onChange={(e) => {setSize(e.target.value)}} className=" rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-500 text-base pl-3 pr-10">
+                                        <select ref={sizeRef} onChange={(e) => { setSize(e.target.value) }} className=" rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-500 text-base pl-3 pr-10">
                                             {(Object.keys(variants[color])).map(size => {
                                                 return (
                                                     <option key={size} >{size}</option>
@@ -142,9 +142,16 @@ const Slug = ({ addInCart, product, variants }) => {
 
                                     toast.success("Added item in cart :) ")
                                 }} className='md:text-lg text-lg text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><MdAddCircle /></button>
-                                <div className=" flex ">
+                                <div className=" flex gap-x-4">
                                     <Link href={'/checkout'}>
                                         <button className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
+                                    </Link>
+                                    <Link href={'/checkout'}>
+                                        <button onClick={() => {
+                                            buyNow(variants[color][size]['slug'], qty, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
+
+                                            // toast.success("Added item in cart :) ")
+                                        }} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />BuyNow</button>
                                     </Link>
                                     <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                                         <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
