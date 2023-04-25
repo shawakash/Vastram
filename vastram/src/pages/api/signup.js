@@ -1,7 +1,7 @@
 import wrapResponse from "bring/utils/wrapResponse";
 import connectDb from "../../../middleware/connectDb"
 import User from "../../../models/User";
-const CryptoJS = require("crypto-js");
+var CryptoJS = require("crypto-js");
 
 const handler = async (req, res) => {
     if (req.method == 'POST') {

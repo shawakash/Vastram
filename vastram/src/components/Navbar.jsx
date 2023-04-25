@@ -2,14 +2,15 @@ import Link from 'next/link';
 import React, { useRef } from 'react'
 import { RiAccountCircleFill, RiShoppingCartFill } from 'react-icons/ri'
 import { BiNotepad } from 'react-icons/bi'
+// import { IoLogIn } from 'react-icons/io'
 import { CgProfile, CgCloseO } from 'react-icons/cg'
-import { HiOutlineLogout, HiOutlineMinusCircle } from 'react-icons/hi'
+import { HiOutlineLogin, HiOutlineLogout, HiOutlineMinusCircle } from 'react-icons/hi'
 import { RiAddCircleLine, RiDeleteBin6Line } from 'react-icons/ri'
 import { BsFillBagCheckFill } from 'react-icons/bs'
 import toast, { Toaster } from 'react-hot-toast';
 
 
-const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
+const Navbar = ({ user, key, addInCart, removeFromCart, cart, subTotal, clearCart }) => {
     const sideCartRef = useRef();
     let totalItem = 0;
     Object.keys(cart).map(item => {
@@ -50,16 +51,23 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
             </ul>
             <ul className="flex gap-x-5 text-sm font-medium md:text-lg justify-between items-center lg:gap-x-8 cursor-pointer">
                 {/* <Link href={'/checkout'}> */}
-                <li onClick={toggleCart} className=""><RiShoppingCartFill className='text-base md:text-lg lg:text-[25px]' /></li>
+                <li onClick={toggleCart} className="" title='Cart'><RiShoppingCartFill className='text-base md:text-lg lg:text-[25px]' /></li>
                 {/* </Link> */}
                 <Link href={'/order'}>
-                    <li className=""><BiNotepad className='text-base md:text-lg lg:text-[25px]' /></li>
+                    <li className="" title='Order'><BiNotepad className='text-base md:text-lg lg:text-[25px]' /></li>
                 </Link>
-                <Link href={'/login'}>
-                    <li className=""><RiAccountCircleFill className='text-base md:text-lg lg:text-[25px]' /></li>
-                </Link>
+                {user.value &&
+                    <Link href={'/profile'}>
+                        <li className="" title='Profile'><RiAccountCircleFill className='text-base md:text-lg lg:text-[25px]' /></li>
+                    </Link>
+                }
+                {!user.value &&
+                    <Link href={'/login'}>
+                        <li className="" title='Login'><HiOutlineLogin className='text-base md:text-lg lg:text-[25px]' /></li>
+                    </Link>
+                }
                 <Link href={'/logout'}>
-                    <li className=""><HiOutlineLogout className='text-base md:text-lg lg:text-[25px]' /></li>
+                    <li className="" title='logout'><HiOutlineLogout className='text-base md:text-lg lg:text-[25px]' /></li>
                 </Link>
             </ul>
             <div ref={sideCartRef} className={`sideCart absolute overflow-y-scroll top-24  flex flex-col gap-y-5 p-10 bg-[#e5bfc1] bg-opacity-95 rounded-xl md:rounded-t-none md: rounded-r-none md:top-0 right-0 tracking-wide transform transition-transform ${Object.keys(cart).length != 0 ? 'translate-x-0' : 'translate-x-full'} w-72 md:w-96 z-50`}>
@@ -85,7 +93,7 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                                             }} className="decr text-slate-700"><HiOutlineMinusCircle /></div>
                                         </div>
                                         <div className="item-total w-1/6 font-serif">
-                                            ₹{(cart[k].qty)*(cart[k].price)}
+                                            ₹{(cart[k].qty) * (cart[k].price)}
                                         </div>
                                     </div>
                                 </li>
@@ -113,14 +121,14 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                             <div className="flex justify-around">
                                 <div className="">
                                     <Link href={'/checkout'}>
-                                    <button onClick={toggleCart} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
+                                        <button onClick={toggleCart} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
                                     </Link>
                                 </div>
                                 <div className="">
                                     <button onClick={(_) => {
                                         clearCart()
                                         toast.success('Cart is cleared');
-                                        }} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md px-2 md:px-4 py-1 flex items-center gap-x-2'><RiDeleteBin6Line />Clear</button>
+                                    }} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md px-2 md:px-4 py-1 flex items-center gap-x-2'><RiDeleteBin6Line />Clear</button>
                                 </div>
                             </div>
                         </>

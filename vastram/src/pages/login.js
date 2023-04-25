@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useRef } from 'react'
 import { Toaster, toast } from 'react-hot-toast';
 
-const Login = () => {
+const Login = ({setUser}) => {
     const router = useRouter();
 
     const emailRef = useRef(null);
@@ -27,11 +27,12 @@ const Login = () => {
             toast.success("Welcome Back!");
             localStorage.setItem("accessToken", data.result.accessToken);
             setTimeout((_) => {
+                setUser({value: data.result.accessToken});
                 passRef.current.value =''
                 emailRef.current.value =''
                 router.push('/');
             }, 1000);
-
+            
         } else { 
             if(data.message.includes("Wrong")) {
                 toast.error("Invalid Password");
