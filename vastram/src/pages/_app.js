@@ -31,7 +31,7 @@ export default function App({ Component, pageProps }) {
       setUser({value: token});
       setKey(Math.random()*1000)
     }
-  }, [])
+  }, [])    // either put router.query in dependency array or setUser after successfull login
   
   const saveCart = async (myCart) => {
     localStorage.setItem("cart", JSON.stringify(myCart));
