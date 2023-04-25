@@ -35,7 +35,7 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                 </Link>
             </div>
             <ul className="flex gap-x-5 text-sm  font-medium md:text-lg">
-                <Link href={'/product/suits'}>
+                <Link href={'/suits'}>
                     <li className="">Suits</li>
                 </Link>
                 <Link href={'/shirts'}>
@@ -44,7 +44,7 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                 <Link href={'/traditional'}>
                     <li className="">Traditional</li>
                 </Link>
-                <Link href={'/product/ethentic'}>
+                <Link href={'/ethentic'}>
                     <li className="">Ethentic</li>
                 </Link>
             </ul>
@@ -62,7 +62,7 @@ const Navbar = ({ addInCart, removeFromCart, cart, subTotal, clearCart }) => {
                     <li className=""><HiOutlineLogout className='text-base md:text-lg lg:text-[25px]' /></li>
                 </Link>
             </ul>
-            <div ref={sideCartRef} className={`sideCart absolute top-24  flex flex-col gap-y-5 p-10 bg-[#e5bfc1] bg-opacity-95 rounded-xl md:rounded-t-none md: rounded-r-none md:top-0 right-0 tracking-wide transform transition-transform ${Object.keys(cart).length != 0 ? 'translate-x-0' : 'translate-x-full'} w-72 md:w-96 z-50`}>
+            <div ref={sideCartRef} className={`sideCart absolute overflow-y-scroll top-24  flex flex-col gap-y-5 p-10 bg-[#e5bfc1] bg-opacity-95 rounded-xl md:rounded-t-none md: rounded-r-none md:top-0 right-0 tracking-wide transform transition-transform ${Object.keys(cart).length != 0 ? 'translate-x-0' : 'translate-x-full'} w-72 md:w-96 z-50`}>
                 <div onClick={toggleCart} className="flex justify-center text-2xl cursor-pointer"><CgCloseO /></div>
                 <h2 className="heading font-semibold md:font-bold text-[#b6464c] text-base md:text-xl">Shopping Cart</h2>
                 <ol className="list-disc list-outside font-normal flex flex-col w-full gap-y-2 text-sm md:text-lg pl-2 text-black">

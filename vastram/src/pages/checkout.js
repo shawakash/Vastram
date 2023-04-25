@@ -6,6 +6,10 @@ import { RiAddCircleLine, RiDeleteBin6Line } from 'react-icons/ri';
 import toast, { Toaster } from 'react-hot-toast';
 
 const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
+    let totalItem = 0;
+    Object.keys(cart).map(item => {
+        totalItem += parseInt(cart[item].qty);
+    })
     return (
         <>
             <div className="checkout flex flex-col sm:w-3/4 w-80 gap-y-6 md:gap-y-20 pb-8 ">
@@ -63,7 +67,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
                                         <li className="" key={k}>
                                             <div className="flex text-sm md:gap-x-4 gap-x-2 items-center text-[14.5px] md:text-lg">
 
-                                                <div className="product w-1/2 ">{cart[k]?.name.slice(0, 13)}..</div>
+                                                <div className="product w-1/2 tracking-wide font-medium">{cart[k]?.name}</div>
                                                 <div className="item-info w-1/3 font-serif flex items-center gap-x-2 ">
                                                     <div onClick={(_) => {
                                                         addInCart(k, 1, 534, 'M', "The Dohti(M, White)", "White")
@@ -92,7 +96,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
                                         <div className="product w-1/2 ">Summary --&gt; </div>
                                         <div className="item-info flex font-serif w-1/3 gap-x-2 ">
                                             <div className="">Items: </div>
-                                            <div className="count text-slate-800">5</div>
+                                            <div className="count text-slate-800">{totalItem}</div>
 
                                         </div>
                                         <div className="item-total w-1/6 font-serif">

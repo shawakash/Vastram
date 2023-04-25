@@ -132,7 +132,7 @@ const Slug = ({ addInCart, product, variants, buyNow }) => {
                                     </div>
                                 </div>
                                 <div className="ml-3">
-                                    <input type="number" onChange={(e) => setQty(parseInt(e.target.value))} className="border-b-2 font-serif focus:border-[#b6464c] outline-none transition-all text-base md:text-lg py-1 w-40 text-clip cursor-pointer focus:cursor-text overflow-hidden" placeholder='Quantity' />
+                                    <input type="number" onChange={(e) => setQty(parseInt(e.target.value))} className="border-b-2 font-serif focus:border-[#b6464c] outline-none transition-all text-base md:text-lg py-1 w-40 text-clip cursor-pointer focus:cursor-text overflow-hidden" placeholder='Quantity' required/>
                                 </div>
                             </div>
                             <div className="flex gap-x-6 w-full items-center md:gap-x-10">
@@ -149,8 +149,7 @@ const Slug = ({ addInCart, product, variants, buyNow }) => {
                                     <Link href={'/checkout'}>
                                         <button onClick={() => {
                                             buyNow(variants[color][size]['slug'], qty, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
-
-                                            // toast.success("Added item in cart :) ")
+                                            toast.success("Checking Out :) ")
                                         }} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />BuyNow</button>
                                     </Link>
                                     <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
