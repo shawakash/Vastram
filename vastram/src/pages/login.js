@@ -1,8 +1,47 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import { useRouter } from 'next/router';
+import React, { useRef } from 'react'
+import { Toaster, toast } from 'react-hot-toast';
 
 const Login = () => {
+    const router = useRouter();
+
+    const emailRef = useRef(null);
+    const passRef = useRef(null);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const body = {
+            email: emailRef.current.value,
+            password: passRef.current.value
+        }
+        const response = await fetch(`http://localhost:3000/api/login`, {
+            method: 'POST',
+            body: JSON.stringify(body)
+        });
+
+        const data = await response.json();
+        console.log(data)
+        if(data.status == 'success') {
+            toast.success("Welcome Back!");
+            localStorage.setItem("accessToken", data.result.accessToken);
+            setTimeout((_) => {
+                passRef.current.value =''
+                emailRef.current.value =''
+                router.push('/');
+            }, 1000);
+
+        } else { 
+            if(data.message.includes("Wrong")) {
+                toast.error("Invalid Password");
+            } else if(data.message.includes("No Such User")) {
+                toast.error("Invalid Email");
+            }
+            console.error(data.message);
+        }
+    }
+
     return (
         <>
             <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 w-full tracking-wide">
@@ -12,11 +51,11 @@ const Login = () => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" action="#" method="POST">
+                    <form className="space-y-6" onSubmit={handleSubmit }>
                         <div>
                             <label for="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                             <div className="mt-2">
-                                <input id="email" name="email" type="email" autocomplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
+                                <input ref={emailRef} id="email" name="email" type="email" autocomplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
                             </div>
                         </div>
 
@@ -28,7 +67,7 @@ const Login = () => {
                                 </div>
                             </div>
                             <div className="mt-2">
-                                <input id="password" name="password" type="password" autocomplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6" />
+                                <input ref={passRef} id="password" name="password" type="password" autocomplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6" />
                             </div>
                         </div>
 
@@ -42,6 +81,7 @@ const Login = () => {
                         <Link href={'/signup'} className="font-semibold leading-6 text-[#b6464c] hover:text-[#b6464c]"><span> SignUp</span></Link>
                     </p>
                 </div>
+                <Toaster />
             </div>
         </>
     )

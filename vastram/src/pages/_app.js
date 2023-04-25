@@ -9,6 +9,8 @@ export default function App({ Component, pageProps }) {
 
   const [cart, setCart] = useState({});
   const [subTotal, setSubTotal] = useState(0);
+  const [user, setUser] = useState({value: null});
+  const [key, setKey] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,6 +25,11 @@ export default function App({ Component, pageProps }) {
     } catch (err) {
       console.error(err);
       localStorage.clear()
+    }
+    const token = localStorage.getItem("accessToken");
+    if(token) {
+      setUser({value: token});
+      setKey(Math.random()*1000);
     }
   }, [])
 
@@ -91,7 +98,7 @@ export default function App({ Component, pageProps }) {
       <link rel="shortcut icon" href={'public/logo.png'} type="image/x-icon" />
       <meta name="viewport" content="width=device-width , initial-scale=1.0 , minimum-scale=1.0" />
     </Head>
-    <Navbar addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart}/>
+    <Navbar key={key} user={user} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart}/>
     <main className="flex min-h-screen flex-col items-center justify-between md:px-24 px- py-5 ">
       <Component {...pageProps} buyNow={buyNow} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart}/>
     </main>

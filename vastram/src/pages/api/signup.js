@@ -1,15 +1,17 @@
 import wrapResponse from "bring/utils/wrapResponse";
 import connectDb from "../../../middleware/connectDb"
 import User from "../../../models/User";
+const CryptoJS = require("crypto-js");
 
 const handler = async (req, res) => {
     if (req.method == 'POST') {
         try {
             const { name, email, password, address } = JSON.parse(req.body);
+            const encryptPass = CryptoJS.AES.encrypt(password, 'ENCRYPT_KEY').toString();
             const user = new User({
                 name: name,
                 email: email, 
-                password: password, 
+                password: encryptPass, 
                 address: address,
             });
             const createdUser = await user.save();
