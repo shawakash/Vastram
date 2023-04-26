@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { RiAccountCircleFill, RiShoppingCartFill } from 'react-icons/ri'
 import { BiNotepad } from 'react-icons/bi'
 // import { IoLogIn } from 'react-icons/io'
@@ -10,12 +10,13 @@ import { BsFillBagCheckFill } from 'react-icons/bs'
 import toast, { Toaster } from 'react-hot-toast';
 
 
-const Navbar = ({ user, key, addInCart, removeFromCart, cart, subTotal, clearCart }) => {
+const Navbar = ({ user, key, addInCart, removeFromCart, cart, subTotal, clearCart, logout }) => {
     const sideCartRef = useRef();
     let totalItem = 0;
     Object.keys(cart).map(item => {
         totalItem += parseInt(cart[item].qty);
-    })
+    });
+    const [dropDown, setDropDown] = useState(false);
     const toggleCart = () => {
         if (sideCartRef.current.classList.contains('translate-x-full')) {
             sideCartRef.current.classList.remove('translate-x-full')
@@ -57,8 +58,18 @@ const Navbar = ({ user, key, addInCart, removeFromCart, cart, subTotal, clearCar
                     <li className="" title='Order'><BiNotepad className='text-base md:text-lg lg:text-[25px]' /></li>
                 </Link>
                 {user.value &&
-                    <Link href={'/profile'}>
+                    <Link href={'/profile'} onMouseOver={(_) => setDropDown(true)} onMouseOut={(_) => setDropDown(false)}>
                         <li className="" title='Profile'><RiAccountCircleFill className='text-base md:text-lg lg:text-[25px]' /></li>
+
+                            {dropDown &&
+
+                                <ul className={`absolute right-24 backdrop-blur-lg bg-opacity-80 top-24 md:right-64 md:px-7 md:py-2 md:top-14 md:text-lg text-sm flex flex-col px-3 py-2 bg-[#e5bfc1] rounded-lg gap-y-1 transition-all tracking-wide text-slate-600 `}>
+                                    <Link href={'/profile'}><li className="cursor-pointer hover:text-gray-50 transition-all ">Profile</li></Link>
+                                    <Link href={'/order'}><li className="cursor-pointer hover:text-gray-50 transition-all ">Orders</li></Link>
+                                    <li className="cursor-pointer hover:text-gray-50 transition-all " onClick={logout}>Logout</li>
+                                </ul>
+
+                            }
                     </Link>
                 }
                 {!user.value &&

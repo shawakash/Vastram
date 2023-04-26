@@ -4,6 +4,7 @@ import 'bring/styles/globals.css'
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { Toaster, toast } from 'react-hot-toast';
 
 export default function App({ Component, pageProps }) {
 
@@ -31,8 +32,17 @@ export default function App({ Component, pageProps }) {
       setUser({value: token});
       setKey(Math.random()*1000)
     }
-  }, [])    // either put router.query in dependency array or setUser after successfull login
+  }, [router.query])    // either put router.query in dependency array or setUser after successfull login
   
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    setUser({value: null});
+    setKey(Math.random()*10000);
+    router.push('/')
+    toast.success("Logout !");
+  }
+
   const saveCart = async (myCart) => {
     localStorage.setItem("cart", JSON.stringify(myCart));
     let subt = 0;
@@ -98,9 +108,10 @@ export default function App({ Component, pageProps }) {
       <link rel="shortcut icon" href={'public/logo.png'} type="image/x-icon" />
       <meta name="viewport" content="width=device-width , initial-scale=1.0 , minimum-scale=1.0" />
     </Head>
-    <Navbar key={key} user={user} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart}/>
+    <Navbar key={key} logout={logout} user={user} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart}/>
     <main className="flex min-h-screen flex-col items-center justify-between md:px-24 px- py-5 ">
       <Component {...pageProps} setUser={setUser} buyNow={buyNow} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart}/>
+      <Toaster />
     </main>
     <Footer />
   </>
