@@ -1,14 +1,30 @@
 import wrapResponse from 'bring/utils/wrapResponse';
+import connectDb from "../../../middleware/connectDb"
 import { resolve } from 'path';
+import Order from '../../../models/Order';
 
 const https = require('https');
 const PaytmChecksum = require('paytmchecksum');
 
-export default async function handler(req, res) {
+const handler = async (req, res) => {
     // initiate order status to pending and order to order page
     if (req.method == 'POST') {
 
-        const {cart, subTotal, oid, email} = JSON.parse(req.body);
+        const {cart, subTotal, oid, email, name, address, zipCode, phone} = JSON.parse(req.body);
+
+        const order = new Order({
+            email,
+            orderId: oid,
+            address,
+            amount: subTotal,
+            products: cart
+        });
+        const respo = await order.save();
+
+        // Check if cart is tampered
+        // Check if Items required in stock
+        // Check the details of address ....
+        // iff then generate a transatcion id
 
         var paytmParams = {};
 
@@ -84,3 +100,5 @@ export default async function handler(req, res) {
 
     }
 }
+
+export default connectDb(handler);

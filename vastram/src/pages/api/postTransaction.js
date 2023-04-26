@@ -1,12 +1,18 @@
 import wrapResponse from "bring/utils/wrapResponse";
+import connectDb from "../../../middleware/connectDb";
+import Order from "../../../models/Order";
 
-export default function handler(req, res) {
-    // update order status to confirm
-    //  initiate shpiment
-    // redirect to order pages 
+const handler = async (req, res) => {
     try {
-        return res.status(200).send(wrapResponse.success(200, req.body));
+        // update order status to confirm
+        const order = await Order.findOneAndUpdate({ orderId: req.body.ORDERID }, { status: 'PAID' });
+        //  initiate shpiment
+        // redirect to order pages 
+        return res.status(200).redirect('/order', 200);
     } catch (e) {
         return res.status(500).send(wrapResponse.error(500, e.message));
     }
 }
+
+
+export default connectDb(handler);

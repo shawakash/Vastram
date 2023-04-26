@@ -38,8 +38,8 @@ export default function App({ Component, pageProps }) {
     const token = localStorage.getItem("accessToken");
     if (token) {
       setUser({ value: token });
-      setKey(Math.random() * 1000)
     }
+    setKey(Math.random() * 1000)
   }, [router.events, router.query])    // either put router.query in dependency array or setUser after successfull login
 
 

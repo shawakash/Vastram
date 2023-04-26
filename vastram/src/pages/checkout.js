@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { BsFillBagCheckFill } from 'react-icons/bs';
 import { HiOutlineMinusCircle } from 'react-icons/hi';
 import { RiAddCircleLine, RiDeleteBin6Line } from 'react-icons/ri';
@@ -9,45 +9,75 @@ import Script from 'next/script';
 
 const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
 
-    // const initiatePayment = async () => {
+    const nameRef = useRef(null);
+    const emailRef = useRef(null);
+    const addressRef = useRef(null);
+    const phoneRef = useRef(null);
+    const zipRef = useRef(null);
+    const cityRef = useRef(null);
+    const stateRef = useRef(null);
+
+    const [disabled, setDisabled] = useState(true);
+
+    const handleChange = (e) => {
+        if (
+            nameRef.current.value &&
+            emailRef.current.value &&
+            addressRef.current.value &&
+            phoneRef.current.value &&
+            zipRef.current.value &&
+            cityRef.current.value &&
+            stateRef.current.value) {
+            setDisabled(false);
+        }
+    }
+
+    const initiatePayment = async () => {
         //  add the mid to carry on;
         //  INITIATE ORDER DATA WITH STATUS = PENDING
-    //     let oid = Math.floor(Math.random() * Date.now());
-    //     // Get a transaction Token and then initiate the transacttion
-    //     let data = {cart, subTotal, oid, email: "email"};
-    //     let response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/preTransaction`, {
-    //         method: 'POST',
-    //         body: JSON.stringify(data)
-    //     });
-    //     let transactionResponse = await response.json();
-    //     let transactionToken = transactionResponse.txnToken;
-    //     console.log(transactionToken);
+        let oid = Math.floor(Math.random() * Date.now());
+        // Get a transaction Token and then initiate the transacttion
+        let data = {
+            cart, subTotal, oid,
+            email: emailRef.current.value,
+            address: addressRef.current.value,
+            name: nameRef.current.value,
+            phone: phoneRef.current.value,
+            zipCode: zipRef.current.value
+        };
+        let response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/preTransaction`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+        let transactionResponse = await response.json();
+        let transactionToken = transactionResponse.txnToken;
+        console.log(transactionToken);
 
-    //     var config = {
-    //         "root": "",
-    //         "flow": "DEFAULT",
-    //         "data": {
-    //             "orderId": oid, /* update order id */
-    //             "token": transactionToken, /* update token value */
-    //             "tokenType": "TXN_TOKEN",
-    //             "amount": subTotal /* update amount */
-    //         },
-    //         "handler": {
-    //             "notifyMerchant": function (eventName, data) {
-    //                 console.log("notifyMerchant handler function called");
-    //                 console.log("eventName => ", eventName);
-    //                 console.log("data => ", data);
-    //             }
-    //         }
-    //     };
-    //     window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
-    //         // after successfully updating configuration, invoke JS Checkout
-    //         window.Paytm.CheckoutJS.invoke();
-    //     }).catch(function onError(error) {
-    //         console.log("error => ", error);
-    //     });
+        var config = {
+            "root": "",
+            "flow": "DEFAULT",
+            "data": {
+                "orderId": oid, /* update order id */
+                "token": transactionToken, /* update token value */
+                "tokenType": "TXN_TOKEN",
+                "amount": subTotal /* update amount */
+            },
+            "handler": {
+                "notifyMerchant": function (eventName, data) {
+                    console.log("notifyMerchant handler function called");
+                    console.log("eventName => ", eventName);
+                    console.log("data => ", data);
+                }
+            }
+        };
+        window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
+            // after successfully updating configuration, invoke JS Checkout
+            window.Paytm.CheckoutJS.invoke();
+        }).catch(function onError(error) {
+            console.log("error => ", error);
+        });
 
-    // }
+    }
 
     let totalItem = 0;
     Object.keys(cart).map(item => {
@@ -58,7 +88,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
             <Head>
                 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
             </Head>
-            {/* <Script type="application/javascript" src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`}  crossorigin="anonymous" /> */}
+            <Script type="application/javascript" src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`}  crossorigin="anonymous" />
 
             <div className="checkout flex flex-col sm:w-3/4 w-80 gap-y-6 md:gap-y-20 pb-8 ">
                 <div className="head flex justify-center items-center text-2xl md:text-4xl text-[#b6464c] font-head font-semibold">
@@ -70,36 +100,37 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
                         <div className="flex gap-x-2 md:gap-x-8">
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="name" className="font-medium text-slate-700 text-sm md:text-base ">Name</label>
-                                <input type="text" name='name' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                                <input ref={nameRef} onChange={handleChange} type="text" name='name' required className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             </div>
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="email" className="font-medium text-slate-700 text-sm md:text-base ">Email</label>
-                                <input type="email" name='email' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                                <input required ref={emailRef} onChange={handleChange} type="email" name='email' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             </div>
                         </div>
 
                         <div className="flex flex-col gap-y-2">
                             <label htmlFor="address" className="font-medium text-slate-700 text-sm md:text-base ">Address</label>
-                            <textarea rows={'5'} cols={'10'} type="text" name='email' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                            <textarea required ref={addressRef} onChange={handleChange} rows={'5'} cols={'10'} type="text" name='email' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                         </div>
                         <div className="flex gap-x-2 md:gap-x-8">
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="Phone" className="font-medium text-slate-700 text-sm md:text-base ">Phone</label>
-                                <input type="number" name='Phone' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                                <input required ref={phoneRef} onChange={handleChange} type="number" name='Phone' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             </div>
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
-                                <label htmlFor="city" className="font-medium text-slate-700 text-sm md:text-base ">City</label>
-                                <input type="text" name='city' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                                <label htmlFor="pincode" className="font-medium text-slate-700 text-sm md:text-base ">Zip/Pin code</label>
+                                <input required ref={zipRef} onChange={handleChange} type="number" name='pincode' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             </div>
+
                         </div>
                         <div className="flex gap-x-2 md:gap-x-8">
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="state" className="font-medium text-slate-700 text-sm md:text-base ">State</label>
-                                <input type="text" name='state' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                                <input ref={stateRef} onChange={handleChange} type="text" name='state' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             </div>
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
-                                <label htmlFor="pincode" className="font-medium text-slate-700 text-sm md:text-base ">Zip/Pin code</label>
-                                <input type="number" name='pincode' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                                <label htmlFor="city" className="font-medium text-slate-700 text-sm md:text-base ">City</label>
+                                <input ref={cityRef} onChange={handleChange} type="text" name='city' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             </div>
                         </div>
                     </form>
@@ -154,11 +185,24 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
 
                                 </div>
                                     <div className="flex justify-around">
-                                        <div className="">
-                                            <Link href={'/order'}>
-                                                <button 
-                                                // onClick={initiatePayment} 
-                                                className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />Pay ₹ {subTotal}</button>
+                                        <div className=""
+                                            onMouseOver={() => {
+                                                console.log(disabled)
+                                                if (disabled) {
+                                                    toast.error("Please Fill the Checkout Details First :)");
+                                                }
+                                            }}
+                                        >
+                                            <Link href={'/order'} disabled={disabled} >
+                                                <button
+                                                    disabled={disabled}
+                                                    onClick={() => {
+                                                        if (disabled) {
+                                                            toast.error("Please Fill the Checkout Details First :)");
+                                                        }
+                                                        initiatePayment()
+                                                    }}
+                                                    className='disabled:bg-[#d58d91] md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />Pay ₹ {subTotal}</button>
                                             </Link>
                                         </div>
                                         <div className="">
