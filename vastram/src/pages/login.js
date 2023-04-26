@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useRef } from 'react'
 import { Toaster, toast } from 'react-hot-toast';
 
-const Login = ({setUser}) => {
+const Login = ({ setUser }) => {
     const router = useRouter();
 
     const emailRef = useRef(null);
@@ -15,7 +15,7 @@ const Login = ({setUser}) => {
             router.push('/');
             toast.success('Already Logged In :)');
         }
-    })
+    }, [router.query]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,7 +23,7 @@ const Login = ({setUser}) => {
             email: emailRef.current.value,
             password: passRef.current.value
         }
-        const response = await fetch(`http://localhost:3000/api/login`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/login`, {
             method: 'POST',
             body: JSON.stringify(body)
         });
@@ -61,21 +61,21 @@ const Login = ({setUser}) => {
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" onSubmit={handleSubmit }>
                         <div>
-                            <label for="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                             <div className="mt-2">
-                                <input ref={emailRef} id="email" name="email" type="email" autocomplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
+                                <input ref={emailRef} id="email" name="email" type="email" autoComplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
                             </div>
                         </div>
 
                         <div>
                             <div className="flex items-center justify-between">
-                                <label for="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
                                 <div className="text-sm">
                                     <Link href={'/forgot'} className="font-semibold text-[#b6464c] hover:text-[#b6464c]">Forgot password?</Link>
                                 </div>
                             </div>
                             <div className="mt-2">
-                                <input ref={passRef} id="password" name="password" type="password" autocomplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6" />
+                                <input ref={passRef} id="password" name="password" type="password" autoComplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6" />
                             </div>
                         </div>
 

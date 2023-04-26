@@ -60,7 +60,7 @@ const Suits = ({ products }) => {
 
 // export async function getServerSideProps(context) {
 
-//     let products = await fetch(`http://localhost:3000/api/getProducts`).then(a => a.json()).then(b => b.result);
+//     let products = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/getProducts`).then(a => a.json()).then(b => b.result);
 //     // console.log('Products', products)
 
 //     return {

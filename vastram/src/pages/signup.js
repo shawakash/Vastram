@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast';
 
-const Signup = () => {
+const Signup = ({ setUser }) => {
     const router = useRouter();
     const nameRef = useRef(null);
     const passRef = useRef(null);
@@ -17,7 +17,7 @@ const Signup = () => {
             router.push('/');
             toast.success('Already Signed In :)');
         }
-    })
+    }, [router.query]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,7 +27,7 @@ const Signup = () => {
             password: passRef.current.value, 
             address: addressRef.current.value
         };
-        const response = await fetch(`http://localhost:3000/api/signup`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/signup`, {
             method: 'POST', 
             body: JSON.stringify(body)
         });
@@ -38,6 +38,8 @@ const Signup = () => {
             addressRef.current.value =''
             passRef.current.value =''
             emailRef.current.value =''
+            localStorage.setItem("accessToken", data.result.accessToken);
+            setUser({value: data.result.accessToken})
             router.push('/');
 
         } else { 
@@ -58,19 +60,19 @@ const Signup = () => {
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
-                            <label for="name" className="block text-sm font-medium leading-6 text-gray-900">Your Name</label>
+                            <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Your Name</label>
                             <div className="mt-2">
                                 <input ref={nameRef}  id="name" name="name" type="text" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
                             </div>
                         </div>
                         <div>
-                            <label for="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                             <div className="mt-2">
-                                <input ref={emailRef}  id="email" name="email" type="email" autocomplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
+                                <input ref={emailRef}  id="email" name="email" type="email" autoComplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
                             </div>
                         </div>
                         <div>
-                            <label for="address" className="block text-sm font-medium leading-6 text-gray-900">Address</label>
+                            <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">Address</label>
                             <div className="mt-2">
                                 <input ref={addressRef}  id="phone" name="phone" type="text" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
                             </div>
@@ -78,18 +80,18 @@ const Signup = () => {
                         
                         <div>
                             <div className="flex items-center justify-between">
-                                <label for="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
                             </div>
                             <div className="mt-2">
-                                <input  id="password" name="password" type="password" autocomplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6" />
+                                <input  id="password" name="password" type="password" autoComplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6" />
                             </div>
                         </div>
                         <div>
                             <div className="flex items-center justify-between">
-                                <label  for="cpassword" className="block text-sm font-medium leading-6 text-gray-900">Confirm Password</label>
+                                <label  htmlFor="cpassword" className="block text-sm font-medium leading-6 text-gray-900">Confirm Password</label>
                             </div>
                             <div className="mt-2">
-                                <input ref={passRef}  id="cpassword" name="cpassword" type="password" autocomplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6" />
+                                <input ref={passRef}  id="cpassword" name="cpassword" type="password" autoComplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6" />
                             </div>
                         </div>
 

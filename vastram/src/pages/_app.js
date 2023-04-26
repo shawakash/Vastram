@@ -40,7 +40,7 @@ export default function App({ Component, pageProps }) {
       setUser({ value: token });
       setKey(Math.random() * 1000)
     }
-  }, [router.query])    // either put router.query in dependency array or setUser after successfull login
+  }, [router.events, router.query])    // either put router.query in dependency array or setUser after successfull login
 
 
   const logout = () => {
@@ -124,7 +124,7 @@ export default function App({ Component, pageProps }) {
       <link rel="shortcut icon" href={'public/logo.png'} type="image/x-icon" />
       <meta name="viewport" content="width=device-width , initial-scale=1.0 , minimum-scale=1.0" />
     </Head>
-    <Navbar key={key} logout={logout} user={user} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart} />
+    {key && <Navbar key={key} logout={logout} user={user} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart} /> }
     <main className="flex min-h-screen flex-col items-center justify-between md:px-24 px- py-5 ">
       <Component {...pageProps} setUser={setUser} buyNow={buyNow} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart} />
       <Toaster />

@@ -10,7 +10,7 @@ import { BsFillBagCheckFill } from 'react-icons/bs'
 import toast, { Toaster } from 'react-hot-toast';
 
 
-const Navbar = ({ user, key, addInCart, removeFromCart, cart, subTotal, clearCart, logout }) => {
+const Navbar = ({ user, addInCart, removeFromCart, cart, subTotal, clearCart, logout }) => {
     const sideCartRef = useRef();
     let totalItem = 0;
     Object.keys(cart).map(item => {
@@ -61,15 +61,15 @@ const Navbar = ({ user, key, addInCart, removeFromCart, cart, subTotal, clearCar
                     <Link href={'/profile'} onMouseOver={(_) => setDropDown(true)} onMouseOut={(_) => setDropDown(false)}>
                         <li className="" title='Profile'><RiAccountCircleFill className='text-base md:text-lg lg:text-[25px]' /></li>
 
-                            {dropDown &&
+                        {dropDown &&
 
-                                <ul className={`absolute right-24 backdrop-blur-lg bg-opacity-80 top-24 md:right-64 md:px-7 md:py-2 md:top-14 md:text-lg text-sm flex flex-col px-3 py-2 bg-[#e5bfc1] rounded-lg gap-y-1 transition-all tracking-wide text-slate-600 `}>
-                                    <Link href={'/profile'}><li className="cursor-pointer hover:text-gray-50 transition-all ">Profile</li></Link>
-                                    <Link href={'/order'}><li className="cursor-pointer hover:text-gray-50 transition-all ">Orders</li></Link>
-                                    <li className="cursor-pointer hover:text-gray-50 transition-all " onClick={logout}>Logout</li>
-                                </ul>
+                            <ul className={`absolute right-24 backdrop-blur-lg bg-opacity-80 top-24 md:right-64 md:px-7 md:py-2 md:top-14 md:text-lg text-sm flex flex-col px-3 py-2 bg-[#e5bfc1] rounded-lg gap-y-1 transition-all tracking-wide text-slate-600 `}>
+                                <Link href={'/profile'}><li className="cursor-pointer hover:text-gray-50 transition-all ">Profile</li></Link>
+                                <Link href={'/order'}><li className="cursor-pointer hover:text-gray-50 transition-all ">Orders</li></Link>
+                                <li className="cursor-pointer hover:text-gray-50 transition-all " onClick={logout}>Logout</li>
+                            </ul>
 
-                            }
+                        }
                     </Link>
                 }
                 {!user.value &&
@@ -77,9 +77,8 @@ const Navbar = ({ user, key, addInCart, removeFromCart, cart, subTotal, clearCar
                         <li className="" title='Login'><HiOutlineLogin className='text-base md:text-lg lg:text-[25px]' /></li>
                     </Link>
                 }
-                <Link href={'/logout'}>
-                    <li className="" title='logout'><HiOutlineLogout className='text-base md:text-lg lg:text-[25px]' /></li>
-                </Link>
+
+                <li className="" title='logout' onClick={logout}><HiOutlineLogout className='text-base md:text-lg lg:text-[25px]' /></li>
             </ul>
             <div ref={sideCartRef} className={`sideCart absolute overflow-y-scroll top-24  flex flex-col gap-y-5 p-10 bg-[#e5bfc1] bg-opacity-95 rounded-xl md:rounded-t-none md: rounded-r-none md:top-0 right-0 tracking-wide transform transition-transform ${Object.keys(cart).length != 0 ? 'translate-x-0' : 'translate-x-full'} w-72 md:w-96 z-50`}>
                 <div onClick={toggleCart} className="flex justify-center text-2xl cursor-pointer"><CgCloseO /></div>

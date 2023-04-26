@@ -27,7 +27,7 @@ const Slug = ({ addInCart, product, variants, buyNow }) => {
         const body = {
             pincode: parseInt(pincodeRef.current.value)
         }
-        body.pincode && await fetch(`http://localhost:3000/api/pincode`, {
+        body.pincode && await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/pincode`, {
             method: 'POST',
             body: JSON.stringify(body)
         }).then(a => a.json()).then(({ value }) => {

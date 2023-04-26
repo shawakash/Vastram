@@ -1,7 +1,19 @@
 import Link from 'next/link';
-import React from 'react'
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react'
+import { toast } from 'react-hot-toast';
 
 const Order = ({ cart, subTotal }) => {
+    
+    const router = useRouter();
+
+    useEffect(() => {
+        if(!localStorage.getItem("accessToken")) {
+            router.push('/login');
+            // return () => {toast.success('Please Login First :)')};
+        }
+    }, [router, router.query]);
+    
     return (
         <section className="text-gray-600 body-font overflow-hidden w-full">
             <div className="container px-5 py-24 mx-auto">
@@ -27,7 +39,7 @@ const Order = ({ cart, subTotal }) => {
                             );
                         })}
 
-                        <div className="flex justify-start gap-x-10 md:gap-x-16 items-start">
+                        <div className="flex justify-start gap-x-10 md:gap-x-16 items-start mt-10">
                             <div className="title-font font-medium md:text-xl text-sm font-serif text-gray-900 flex flex-col gap-y-2 md:flex-row md:gap-x-3"><span>SubTotal:</span> <span>₹ {subTotal}</span></div>
                             <div className="flex gap-x-1">
 
@@ -45,6 +57,17 @@ const Order = ({ cart, subTotal }) => {
             </div>
         </section>
     )
+}
+
+export async function getServerSideProps(context) {
+
+
+    return {
+        props: {
+            
+        }
+    }
+
 }
 
 export default Order

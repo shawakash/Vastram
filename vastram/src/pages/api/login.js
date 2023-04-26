@@ -13,12 +13,12 @@ const handler = async (req, res) => {
             if (!user) {
                 return res.status(404).send(wrapResponse.error(404, 'No Such User'));
             }
-            const bytes = CryptoJS.AES.decrypt(user.password, 'ENCRYPT_KEY');
+            const bytes = CryptoJS.AES.decrypt(user.password, `${process.env.SECRET_KEY}`);
             const decryptPass = bytes.toString(CryptoJS.enc.Utf8);
             if (password != decryptPass) {
                 return res.status(400).send(wrapResponse.error(400, 'Wrong Password'));
             }
-            const accessToken = jwt.sign({ email: email, password: user.password}, 'ENCRYPT_KEY', { expiresIn: '1h' });
+            const accessToken = jwt.sign({ email: email, password: user.password}, `${process.env.JWT_KEY}`, { expiresIn: '1h' });
             return res.status(200).send(wrapResponse.success(200, {user, accessToken}));
 
         } catch (e) {

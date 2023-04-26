@@ -4,14 +4,62 @@ import { BsFillBagCheckFill } from 'react-icons/bs';
 import { HiOutlineMinusCircle } from 'react-icons/hi';
 import { RiAddCircleLine, RiDeleteBin6Line } from 'react-icons/ri';
 import toast, { Toaster } from 'react-hot-toast';
+import Head from 'next/head';
+import Script from 'next/script';
 
 const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
+
+    // const initiatePayment = async () => {
+        //  add the mid to carry on;
+        //  INITIATE ORDER DATA WITH STATUS = PENDING
+    //     let oid = Math.floor(Math.random() * Date.now());
+    //     // Get a transaction Token and then initiate the transacttion
+    //     let data = {cart, subTotal, oid, email: "email"};
+    //     let response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/preTransaction`, {
+    //         method: 'POST',
+    //         body: JSON.stringify(data)
+    //     });
+    //     let transactionResponse = await response.json();
+    //     let transactionToken = transactionResponse.txnToken;
+    //     console.log(transactionToken);
+
+    //     var config = {
+    //         "root": "",
+    //         "flow": "DEFAULT",
+    //         "data": {
+    //             "orderId": oid, /* update order id */
+    //             "token": transactionToken, /* update token value */
+    //             "tokenType": "TXN_TOKEN",
+    //             "amount": subTotal /* update amount */
+    //         },
+    //         "handler": {
+    //             "notifyMerchant": function (eventName, data) {
+    //                 console.log("notifyMerchant handler function called");
+    //                 console.log("eventName => ", eventName);
+    //                 console.log("data => ", data);
+    //             }
+    //         }
+    //     };
+    //     window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
+    //         // after successfully updating configuration, invoke JS Checkout
+    //         window.Paytm.CheckoutJS.invoke();
+    //     }).catch(function onError(error) {
+    //         console.log("error => ", error);
+    //     });
+
+    // }
+
     let totalItem = 0;
     Object.keys(cart).map(item => {
         totalItem += parseInt(cart[item].qty);
     })
     return (
         <>
+            <Head>
+                <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
+            </Head>
+            {/* <Script type="application/javascript" src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`}  crossorigin="anonymous" /> */}
+
             <div className="checkout flex flex-col sm:w-3/4 w-80 gap-y-6 md:gap-y-20 pb-8 ">
                 <div className="head flex justify-center items-center text-2xl md:text-4xl text-[#b6464c] font-head font-semibold">
                     Checkout
@@ -108,7 +156,9 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
                                     <div className="flex justify-around">
                                         <div className="">
                                             <Link href={'/order'}>
-                                                <button className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />Pay ₹ {subTotal}</button>
+                                                <button 
+                                                // onClick={initiatePayment} 
+                                                className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />Pay ₹ {subTotal}</button>
                                             </Link>
                                         </div>
                                         <div className="">
