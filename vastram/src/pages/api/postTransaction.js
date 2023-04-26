@@ -5,7 +5,7 @@ import Order from "../../../models/Order";
 const handler = async (req, res) => {
     try {
         // update order status to confirm
-        const order = await Order.findOneAndUpdate({ orderId: req.body.ORDERID }, { status: 'PAID' });
+        const order = await Order.findOneAndUpdate({ orderId: req.body.ORDERID }, { status: 'PAID', paymentInfo: JSON.stringify(req.body) });
         //  initiate shpiment
         // redirect to order pages 
         return res.status(200).redirect('/order', 200);
