@@ -1,11 +1,14 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
+import Order_Model from "../../models/Order";
 import { toast } from 'react-hot-toast';
+import mongoose from 'mongoose';
 
-const Order = ({ cart, subTotal }) => {
+const Order = ({ cart, subTotal, order }) => {
     
     const router = useRouter();
+    
 
     useEffect(() => {
         if(!localStorage.getItem("accessToken")) {
@@ -21,26 +24,26 @@ const Order = ({ cart, subTotal }) => {
                     <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
                         <h2 className="text-sm title-font text-gray-500 tracking-widest">Vasatram Pvt. Ltd.</h2>
                         <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">ORDER ID: <span className='font-serif'>#6464654</span></h1>
-                        <p className="leading-relaxed mb-4">Your Order has been placed with temporary order id: <span className='font-serif'>#6464654</span></p>
+                        <p className="leading-relaxed mb-4">Your Order has been {order.status} with temporary order id: <span className='font-serif'>#{order.orderId}</span></p>
                         <div className="flex mb-4 font-medium ">
                             <a className="flex-grow text-center py-2 text-lg px-1">Description</a>
                             <a className="flex-grow text-center py-2 text-lg px-1">Quantity</a>
                             <a className="flex-grow text-center py-2 text-lg px-1">Price</a>
                         </div>
-                        {Object.keys(cart).map(item => {
+                        {Object.keys(order.products).map(item => {
                             return (
                                 <Link href={`/product/${item}`} key={item}>
                                     <div key={item} className="flex border-t border-gray-200 py-2 justify-around items-center">
-                                        <div className="w-full text-center text-gray-500">{cart[item].name}</div>
-                                        <div className="w-full text-center font-serif text-gray-900">{cart[item].qty}</div>
-                                        <div className="w-full text-center font-serif text-gray-900">₹ {cart[item].qty * cart[item].price}</div>
+                                        <div className="w-full text-center text-gray-500">{order.products[item].name}</div>
+                                        <div className="w-full text-center font-serif text-gray-900">{order.products[item].qty}</div>
+                                        <div className="w-full text-center font-serif text-gray-900">₹ {order.products[item].qty * order.products[item].price}</div>
                                     </div>
                                 </Link>
                             );
                         })}
 
                         <div className="flex justify-start gap-x-10 md:gap-x-16 items-start mt-10">
-                            <div className="title-font font-medium md:text-xl text-sm font-serif text-gray-900 flex flex-col gap-y-2 md:flex-row md:gap-x-3"><span>SubTotal:</span> <span>₹ {subTotal}</span></div>
+                            <div className="title-font font-medium md:text-xl text-sm font-serif text-gray-900 flex flex-col gap-y-2 md:flex-row md:gap-x-3"><span>SubTotal:</span> <span>₹ {order.amount}</span></div>
                             <div className="flex gap-x-1">
 
                                 <button className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded tracking-wide">Track Order</button>
@@ -60,14 +63,25 @@ const Order = ({ cart, subTotal }) => {
 }
 
 export async function getServerSideProps(context) {
-
+    if (!mongoose.connections[0].readyState) {
+        await mongoose.connect(process.env.MONGOOSE_URI,
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            },
+        )
+            .then((e) => console.log('Database Connected.'))
+            .catch(console.error);
+    }
+    const { id } = context.query;
+    const order = await Order_Model.findOne({orderId: id})
 
     return {
         props: {
-            
+            order: JSON.parse(JSON.stringify(order)),
         }
     }
-
 }
+
 
 export default Order
