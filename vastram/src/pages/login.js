@@ -15,7 +15,7 @@ const Login = ({ setUser }) => {
             router.push('/');
             toast.success('Already Logged In :)');
         }
-    }, [router.query]);
+    }, [router, router.query]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
