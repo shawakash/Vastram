@@ -23,7 +23,7 @@ const Order = ({ cart, subTotal, order }) => {
                 <div className="lg:w-4/5 mx-auto flex flex-wrap">
                     <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
                         <h2 className="text-sm title-font text-gray-500 tracking-widest">Vasatram Pvt. Ltd.</h2>
-                        <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">ORDER ID: <span className='font-serif'>#6464654</span></h1>
+                        <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">ORDER ID: <span className='font-serif'>#{order.orderId}</span></h1>
                         <p className="leading-relaxed mb-4">Your Order has been {order.status} with temporary order id: <span className='font-serif'>#{order.orderId}</span></p>
                         <div className="flex mb-4 font-medium ">
                             <a className="flex-grow text-center py-2 text-lg px-1">Description</a>
@@ -74,7 +74,7 @@ export async function getServerSideProps(context) {
             .catch(console.error);
     }
     const { id } = context.query;
-    const order = await Order_Model.findOne({orderId: id})
+    const order = await Order_Model.findById(id)
 
     return {
         props: {
