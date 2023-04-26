@@ -1,8 +1,19 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import { Router } from 'next/router'
+import React, { useEffect } from 'react'
+import { Toaster, toast } from 'react-hot-toast'
 
 const Forgot = () => {
+
+    
+    useEffect(() => {
+        if(localStorage.getItem("accessToken")) {
+            Router.push('/');
+            toast.success('Already Logged In :)');
+        }
+    },[])
+
     return (
         <>
             <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 w-full tracking-wide">
@@ -31,6 +42,7 @@ const Forgot = () => {
                         <Link href={'/signup'} className="font-semibold leading-6 text-[#b6464c] hover:text-[#b6464c]"><span> SignUp</span></Link>
                     </p>
                 </div>
+                <Toaster />
             </div>
         </>
     )

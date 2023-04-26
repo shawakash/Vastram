@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router';
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Toaster, toast } from 'react-hot-toast';
 
 const Login = ({setUser}) => {
@@ -9,6 +9,13 @@ const Login = ({setUser}) => {
 
     const emailRef = useRef(null);
     const passRef = useRef(null);
+
+    useEffect(() => {
+        if(localStorage.getItem("accessToken")) {
+            router.push('/');
+            toast.success('Already Logged In :)');
+        }
+    })
 
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -83,7 +83,7 @@ const Navbar = ({ user, key, addInCart, removeFromCart, cart, subTotal, clearCar
             </ul>
             <div ref={sideCartRef} className={`sideCart absolute overflow-y-scroll top-24  flex flex-col gap-y-5 p-10 bg-[#e5bfc1] bg-opacity-95 rounded-xl md:rounded-t-none md: rounded-r-none md:top-0 right-0 tracking-wide transform transition-transform ${Object.keys(cart).length != 0 ? 'translate-x-0' : 'translate-x-full'} w-72 md:w-96 z-50`}>
                 <div onClick={toggleCart} className="flex justify-center text-2xl cursor-pointer"><CgCloseO /></div>
-                <h2 className="heading font-semibold md:font-bold text-[#b6464c] text-base md:text-xl">Shopping Cart</h2>
+                <h2 className="heading font-semibold md:font-bold text-[] text-base md:text-xl">Shopping Cart</h2>
                 <ol className="list-disc list-outside font-normal flex flex-col w-full gap-y-2 text-sm md:text-lg pl-2 text-black">
                     {Object.keys(cart).length == 0 ? <div className='font-medium text-lg'>Add items to use this</div> :
                         Object.keys(cart).map((k) => {
