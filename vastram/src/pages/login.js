@@ -31,14 +31,15 @@ const Login = ({ setUser }) => {
         const data = await response.json();
         console.log(data)
         if(data.status == 'success') {
-            toast.success("Welcome Back!");
             localStorage.setItem("accessToken", data.result.accessToken);
+            localStorage.setItem("user", JSON.stringify(data.result.user));
+            toast.success("Welcome Back!");
             setTimeout((_) => {
-                setUser({value: data.result.accessToken});
+                setUser({value: data.result.accessToken, email: data.result.user.email});
                 passRef.current.value =''
                 emailRef.current.value =''
                 router.push('/');
-            }, 1000);
+            }, 500);
             
         } else { 
             if(data.message.includes("Wrong")) {

@@ -19,7 +19,7 @@ const handler = async (req, res) => {
                 return res.status(400).send(wrapResponse.error(400, 'Wrong Password'));
             }
             const accessToken = jwt.sign({ email: email, password: user.password}, `${process.env.JWT_KEY}`, { expiresIn: '1d' });
-            return res.status(200).send(wrapResponse.success(200, {user, accessToken}));
+            return res.status(200).send(wrapResponse.success(200, {user: {email: user.email, name: user.name}, accessToken}));
 
         } catch (e) {
             if(e.message.includes("jwt expired")) {
