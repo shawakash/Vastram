@@ -18,10 +18,13 @@ const handler = async (req, res) => {
             if (password != decryptPass) {
                 return res.status(400).send(wrapResponse.error(400, 'Wrong Password'));
             }
-            const accessToken = jwt.sign({ email: email, password: user.password}, `${process.env.JWT_KEY}`, { expiresIn: '1h' });
+            const accessToken = jwt.sign({ email: email, password: user.password}, `${process.env.JWT_KEY}`, { expiresIn: '1d' });
             return res.status(200).send(wrapResponse.success(200, {user, accessToken}));
 
         } catch (e) {
+            if(e.message.includes("jwt expired")) {
+                return res.redirect('/login');
+            }
             return res.status(500).send(wrapResponse.error(500, e.message));
         }
     } else {

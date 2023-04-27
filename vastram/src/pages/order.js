@@ -8,14 +8,18 @@ import mongoose from 'mongoose';
 const Order = ({ cart, subTotal, order }) => {
     
     const router = useRouter();
-    
-
+    useEffect(() => {
+        if(Object.keys(order).length == 0) {
+            router.push('/suits');
+        }
+    }, [order, router])
     useEffect(() => {
         if(!localStorage.getItem("accessToken")) {
             router.push('/login');
             // return () => {toast.success('Please Login First :)')};
         }
     }, [router, router.query]);
+    console.log(order)
     
     return (
         <section className="text-gray-600 body-font overflow-hidden w-full">
@@ -23,20 +27,21 @@ const Order = ({ cart, subTotal, order }) => {
                 <div className="lg:w-4/5 mx-auto flex flex-wrap">
                     <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
                         <h2 className="text-sm title-font text-gray-500 tracking-widest">Vasatram Pvt. Ltd.</h2>
-                        <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">ORDER ID: <span className='font-serif'>#{order.orderId}</span></h1>
-                        <p className="leading-relaxed mb-4">Your Order has been {order.status} with temporary order id: <span className='font-serif'>#{order.orderId}</span></p>
+                        <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">ORDER ID: <span className='font-serif'>#{order?.orderId}</span></h1>
+                        <p className="leading-relaxed mb-4">Your Order has been placed with temporary order id: <span className='font-serif'>#{order?.orderId}</span></p>
+                        <p className="leading-relaxed mb-4">Status : {order?.status} </p>
                         <div className="flex mb-4 font-medium ">
                             <a className="flex-grow text-center py-2 text-lg px-1">Description</a>
                             <a className="flex-grow text-center py-2 text-lg px-1">Quantity</a>
                             <a className="flex-grow text-center py-2 text-lg px-1">Price</a>
                         </div>
-                        {Object.keys(order.products).map(item => {
+                        {Object.keys(order?.products).map(item => { 
                             return (
                                 <Link href={`/product/${item}`} key={item}>
                                     <div key={item} className="flex border-t border-gray-200 py-2 justify-around items-center">
-                                        <div className="w-full text-center text-gray-500">{order.products[item].name}</div>
-                                        <div className="w-full text-center font-serif text-gray-900">{order.products[item].qty}</div>
-                                        <div className="w-full text-center font-serif text-gray-900">₹ {order.products[item].qty * order.products[item].price}</div>
+                                        <div className="w-full text-center text-gray-500">{order?.products[item].name}</div>
+                                        <div className="w-full text-center font-serif text-gray-900">{order?.products[item].qty}</div>
+                                        <div className="w-full text-center font-serif text-gray-900">₹ {order?.products[item].qty * order.products[item].price}</div>
                                     </div>
                                 </Link>
                             );

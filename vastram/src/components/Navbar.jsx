@@ -54,7 +54,7 @@ const Navbar = ({ user, addInCart, removeFromCart, cart, subTotal, clearCart, lo
                 {/* <Link href={'/checkout'}> */}
                 <li onClick={toggleCart} className="" title='Cart'><RiShoppingCartFill className='text-base md:text-lg lg:text-[25px]' /></li>
                 {/* </Link> */}
-                <Link href={'/order'}>
+                <Link href={'/orders'}>
                     <li className="" title='Order'><BiNotepad className='text-base md:text-lg lg:text-[25px]' /></li>
                 </Link>
                 {user.value &&

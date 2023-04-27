@@ -73,6 +73,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
         window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
             // after successfully updating configuration, invoke JS Checkout
             window.Paytm.CheckoutJS.invoke();
+            clearCart()
         }).catch(function onError(error) {
             console.log("error => ", error);
         });

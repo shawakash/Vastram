@@ -11,13 +11,14 @@ const handler = async (req, res) => {
     if (req.method == 'POST') {
 
         const {cart, subTotal, oid, email, name, address, zipCode, phone} = JSON.parse(req.body);
-
+        console.log('From PreTrans',name)
         const order = new Order({
             email,
             orderId: oid,
             address,
             amount: subTotal,
-            products: cart
+            products: cart,
+            name
         });
         const respo = await order.save();
 

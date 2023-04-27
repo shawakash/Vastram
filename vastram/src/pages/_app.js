@@ -12,9 +12,10 @@ export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState({});
   const [subTotal, setSubTotal] = useState(0);
   const [user, setUser] = useState({ value: null });
-  const [key, setKey] = useState();
+  const [key, setKey] = useState(Math.random()*10000);
   const router = useRouter();
   const [progress, setProgress] = useState(0)
+
 
   useEffect(() => {
     router.events.on('routeChangeStart', () => {

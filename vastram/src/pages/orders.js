@@ -1,13 +1,14 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react'
 import mongoose from 'mongoose';
+import Link from 'next/link';
 
 const Orders = () => {
     const router = useRouter();
     let [orders, setOrders] = useState([]);
     useEffect(() => {
         const fetchOrders = async () => {
-            if (!localStorage.getItem("accessToken")) {
+            if (!localStorage.getItem("accessToken")) {  // as local storage can't be deefined in server side props
                 return router.push('/login');
             }
             const body = {
@@ -27,6 +28,7 @@ const Orders = () => {
             fetchOrders()
         }
     }, [router])
+    console.log(orders)
     return (
         <>
 
@@ -41,7 +43,13 @@ const Orders = () => {
                                             #
                                         </th>
                                         <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                            OrderId
+                                            # OrderId
+                                        </th>
+                                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                            # Name
+                                        </th>
+                                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                            # Email Id
                                         </th>
                                         <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                             Amount
@@ -52,12 +60,18 @@ const Orders = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {orders.map(order => {
+                                {orders?.map((order, index) => {
                                     return (
-                                    <tr key={order._id} className="bg-gray-100  border-b">
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{}</td>
+                                    <tr key={order._id} onClick={() => { router.push(`/order?id=${order._id}`)}} className="bg-gray-100 cursor-pointer border-b">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
                                         <td className="text-sm  text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                             {order.orderId}
+                                        </td>
+                                        <td className="text-sm  text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                            {order.name}
+                                        </td>
+                                        <td className="text-sm  text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                            {order.email}
                                         </td>
                                         <td className="text-sm font-serif text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                         ₹ {order.amount}
@@ -78,7 +92,6 @@ const Orders = () => {
         </>
     );
 }
-
 
 
 export default Orders
