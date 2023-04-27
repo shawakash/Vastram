@@ -55,8 +55,11 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
                 toast.error('Cart has been tampered');
                 clearCart();
             }
+            if (transactionResponse.message.includes("OUT OF STOCK")) {
+                toast.error(transactionResponse.message);
+            }
         }
-        setTimeout(() => {
+
 
             let transactionToken = transactionResponse.txnToken;
             console.log(transactionToken);
@@ -85,7 +88,6 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
             }).catch(function onError(error) {
                 console.log("error => ", error);
             });
-        }, 2000);
 
     }
 
@@ -216,7 +218,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
                                                 }
                                             }}
                                         >
-                                            {/* <Link href={'/order'} disabled={disabled} > */}
+                                            {/* <Link href={'/orders'} disabled={disabled} > */}
                                                 <button
                                                     disabled={disabled}
                                                     onClick={() => {

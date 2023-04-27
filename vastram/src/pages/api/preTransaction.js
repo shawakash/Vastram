@@ -27,8 +27,11 @@ const handler = async (req, res) => {
         let originalTotal = 0;
         for (let item in cart) {
             const product = await Product.findOne({ slug: item });
-            originalTotal += (product.price) * (item.qty)
-            if (item.price != product.price) {
+            originalTotal += (product.price) * (cart[item].qty)
+            if(cart[item].qty > product.availqty) {
+                return res.status(500).send(wrapResponse.error(500, 'Some items in cart is OUT OF STOCK, Please try later! :)'));
+            }
+            if (cart[item].price != product.price) {
                 return res.status(500).send(wrapResponse.error(500, 'Cart has been tampered'));
             }
         }

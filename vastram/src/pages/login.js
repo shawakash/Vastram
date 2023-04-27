@@ -7,8 +7,8 @@ import { Toaster, toast } from 'react-hot-toast';
 const Login = ({ setUser }) => {
     const router = useRouter();
 
-    const emailRef = useRef(null);
-    const passRef = useRef(null);
+    const emailRef = useRef();
+    const passRef = useRef();
 
     useEffect(() => {
         if(localStorage.getItem("accessToken")) {

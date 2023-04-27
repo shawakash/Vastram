@@ -128,7 +128,7 @@ export default function App({ Component, pageProps }) {
     {key && <Navbar key={key} logout={logout} user={user} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart} /> }
     <main className="flex min-h-screen flex-col items-center justify-between md:px-24 px- py-5 ">
       <Component {...pageProps} setUser={setUser} buyNow={buyNow} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart} />
-      <Toaster />
+      {/* <Toaster /> */}
     </main>
     <Footer />
   </>
