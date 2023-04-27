@@ -120,7 +120,20 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
                             </div>
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="pincode" className="font-medium text-slate-700 text-sm md:text-base ">Zip/Pin code</label>
-                                <input required ref={zipRef} onChange={handleChange} type="number" name='pincode' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                                <input required ref={zipRef} onChange={async () => {
+                                    if(zipRef.current.value.length == 6) {
+                                        const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/pincode`, {
+                                            method: 'POST',
+                                            body: JSON.stringify({pincode: zipRef.current.value})
+                                        });
+                                        const data = await response.json();
+                                        if(data.value) {
+                                            stateRef.current.value = data.code.state;
+                                            cityRef.current.value = data.code.city;
+                                        }
+                                    }
+                                    handleChange()
+                                }} type="number" name='pincode' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             </div>
 
                         </div>
