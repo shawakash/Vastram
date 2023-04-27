@@ -50,33 +50,42 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
             body: JSON.stringify(data)
         });
         let transactionResponse = await response.json();
-        let transactionToken = transactionResponse.txnToken;
-        console.log(transactionToken);
-
-        var config = {
-            "root": "",
-            "flow": "DEFAULT",
-            "data": {
-                "orderId": oid, /* update order id */
-                "token": transactionToken, /* update token value */
-                "tokenType": "TXN_TOKEN",
-                "amount": subTotal /* update amount */
-            },
-            "handler": {
-                "notifyMerchant": function (eventName, data) {
-                    console.log("notifyMerchant handler function called");
-                    console.log("eventName => ", eventName);
-                    console.log("data => ", data);
-                }
+        if (transactionResponse.status == 'error') {
+            if (transactionResponse.message.includes("Cart has been tampered")) {
+                toast.error('Cart has been tampered');
+                clearCart();
             }
-        };
-        window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
-            // after successfully updating configuration, invoke JS Checkout
-            window.Paytm.CheckoutJS.invoke();
-            clearCart()
-        }).catch(function onError(error) {
-            console.log("error => ", error);
-        });
+        }
+        setTimeout(() => {
+
+            let transactionToken = transactionResponse.txnToken;
+            console.log(transactionToken);
+
+            var config = {
+                "root": "",
+                "flow": "DEFAULT",
+                "data": {
+                    "orderId": oid, /* update order id */
+                    "token": transactionToken, /* update token value */
+                    "tokenType": "TXN_TOKEN",
+                    "amount": subTotal /* update amount */
+                },
+                "handler": {
+                    "notifyMerchant": function (eventName, data) {
+                        console.log("notifyMerchant handler function called");
+                        console.log("eventName => ", eventName);
+                        console.log("data => ", data);
+                    }
+                }
+            };
+            window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
+                // after successfully updating configuration, invoke JS Checkout
+                window.Paytm.CheckoutJS.invoke();
+                clearCart()
+            }).catch(function onError(error) {
+                console.log("error => ", error);
+            });
+        }, 2000);
 
     }
 
@@ -89,7 +98,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
             <Head>
                 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
             </Head>
-            <Script type="application/javascript" src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`}  crossorigin="anonymous" />
+            <Script type="application/javascript" src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`} crossorigin="anonymous" />
 
             <div className="checkout flex flex-col sm:w-3/4 w-80 gap-y-6 md:gap-y-20 pb-8 ">
                 <div className="head flex justify-center items-center text-2xl md:text-4xl text-[#b6464c] font-head font-semibold">
@@ -121,13 +130,13 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="pincode" className="font-medium text-slate-700 text-sm md:text-base ">Zip/Pin code</label>
                                 <input required ref={zipRef} onChange={async () => {
-                                    if(zipRef.current.value.length == 6) {
+                                    if (zipRef.current.value.length == 6) {
                                         const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/pincode`, {
                                             method: 'POST',
-                                            body: JSON.stringify({pincode: zipRef.current.value})
+                                            body: JSON.stringify({ pincode: zipRef.current.value })
                                         });
                                         const data = await response.json();
-                                        if(data.value) {
+                                        if (data.value) {
                                             stateRef.current.value = data.code.state;
                                             cityRef.current.value = data.code.city;
                                         }
@@ -207,7 +216,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
                                                 }
                                             }}
                                         >
-                                            <Link href={'/order'} disabled={disabled} >
+                                            {/* <Link href={'/order'} disabled={disabled} > */}
                                                 <button
                                                     disabled={disabled}
                                                     onClick={() => {
@@ -217,7 +226,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
                                                         initiatePayment()
                                                     }}
                                                     className='disabled:bg-[#d58d91] md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />Pay ₹ {subTotal}</button>
-                                            </Link>
+                                            {/* </Link> */}
                                         </div>
                                         <div className="">
                                             <button onClick={(_) => {

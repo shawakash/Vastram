@@ -13,7 +13,7 @@ const handler = async (req, res) => {
         } else if (req.body.STATUS == 'PENDING') {
             const order = await Order.findOneAndUpdate({ orderId: req.body.ORDERID }, { status: 'PAYMENT PROBLEM', paymentInfo: JSON.stringify(req.body) });
             // redirect to order pages 
-            return res.status(200).redirect(`/order?id=${order._id}`, 200);
+            // return res.status(200).redirect(`/order?id=${order._id}`, 200);
         }
     } catch (e) {
         return res.status(500).send(wrapResponse.error(500, e.message));

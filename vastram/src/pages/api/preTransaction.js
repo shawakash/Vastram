@@ -2,6 +2,7 @@ import wrapResponse from 'bring/utils/wrapResponse';
 import connectDb from "../../../middleware/connectDb"
 import { resolve } from 'path';
 import Order from '../../../models/Order';
+import Product from '../../../models/Product';
 
 const https = require('https');
 const PaytmChecksum = require('paytmchecksum');
@@ -10,8 +11,8 @@ const handler = async (req, res) => {
     // initiate order status to pending and order to order page
     if (req.method == 'POST') {
 
-        const {cart, subTotal, oid, email, name, address, zipCode, phone} = JSON.parse(req.body);
-        console.log('From PreTrans',name)
+        const { cart, subTotal, oid, email, name, address, zipCode, phone } = JSON.parse(req.body);
+        console.log('From PreTrans', name)
         const order = new Order({
             email,
             orderId: oid,
@@ -23,6 +24,17 @@ const handler = async (req, res) => {
         const respo = await order.save();
 
         // Check if cart is tampered
+        let originalTotal = 0;
+        for (let item in cart) {
+            const product = await Product.findOne({ slug: item });
+            originalTotal += (product.price) * (item.qty)
+            if (item.price != product.price) {
+                return res.status(500).send(wrapResponse.error(500, 'Cart has been tampered'));
+            }
+        }
+        if (originalTotal != subTotal) {
+            return res.status(500).send(wrapResponse.error(500, 'Cart has been tampered'));
+        }
         // Check if Items required in stock
         // Check the details of address ....
         // iff then generate a transatcion id
@@ -50,53 +62,53 @@ const handler = async (req, res) => {
         */
         const checksum = await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body), process.env.PAYTM_KEY);
 
-            paytmParams.head = {
-                "signature": checksum
-            };
+        paytmParams.head = {
+            "signature": checksum
+        };
 
-            var post_data = JSON.stringify(paytmParams);
+        var post_data = JSON.stringify(paytmParams);
 
 
-            const createAysnc = () => {
-                return new Promise((resolve, reject) => {
-                    var options = {
+        const createAysnc = () => {
+            return new Promise((resolve, reject) => {
+                var options = {
 
-                        /* for Staging */
-                        // hostname: 'securegw-stage.paytm.in',
+                    /* for Staging */
+                    // hostname: 'securegw-stage.paytm.in',
 
-                        /* for Production */
-                        hostname: 'securegw.paytm.in',
+                    /* for Production */
+                    hostname: 'securegw.paytm.in',
 
-                        port: 443,
-                        path: `/theia/api/v1/initiateTransaction?mid=${process.env.NEXT_PUBLIC_PAYTM_MID}&orderId=${oid}`,
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Content-Length': post_data.length
-                        }
-                    };
+                    port: 443,
+                    path: `/theia/api/v1/initiateTransaction?mid=${process.env.NEXT_PUBLIC_PAYTM_MID}&orderId=${oid}`,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Content-Length': post_data.length
+                    }
+                };
 
-                    var response = "";
-                    var post_req = https.request(options, function (post_res) {
-                        post_res.on('data', function (chunk) {
-                            response += chunk;
-                        });
-
-                        post_res.on('end', function () {
-                            console.log('Response : ', response);
-                            resolve(JSON.parse(response).body);
-                        });
+                var response = "";
+                var post_req = https.request(options, function (post_res) {
+                    post_res.on('data', function (chunk) {
+                        response += chunk;
                     });
 
-                    post_req.write(post_data);
-                    post_req.end();
+                    post_res.on('end', function () {
+                        console.log('Response : ', response);
+                        resolve(JSON.parse(response).body);
+                    });
+                });
 
-                })
-            }
+                post_req.write(post_data);
+                post_req.end();
 
-            const myResponse = await createAysnc();
+            })
+        }
 
-            return res.status(200).send(wrapResponse.success(200, myResponse));
+        const myResponse = await createAysnc();
+
+        return res.status(200).send(wrapResponse.success(200, myResponse));
 
 
     }
