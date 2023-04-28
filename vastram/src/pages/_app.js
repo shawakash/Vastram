@@ -15,6 +15,7 @@ export default function App({ Component, pageProps }) {
   const [key, setKey] = useState(Math.random()*10000);
   const router = useRouter();
   const [progress, setProgress] = useState(0)
+  const [showSideCart, setShowSideCart] = useState(false);
 
 
   useEffect(() => {
@@ -77,6 +78,7 @@ export default function App({ Component, pageProps }) {
     }
     setCart(myCart);
     saveCart(myCart);
+    setShowSideCart(true)
     // setKey(Math.random()*10000);
   }
 
@@ -92,6 +94,7 @@ export default function App({ Component, pageProps }) {
     }
     setCart(myCart);
     saveCart(myCart);
+    setShowSideCart(true)
     router.push(`/checkout`);
   }
   const clearCart = (_) => {
@@ -108,6 +111,7 @@ export default function App({ Component, pageProps }) {
       delete myCart[itemCode]
     }
     setCart(myCart);
+    setShowSideCart(true)
     saveCart(myCart);
   }
 
@@ -127,7 +131,7 @@ export default function App({ Component, pageProps }) {
       <link rel="shortcut icon" href={'public/logo.png'} type="image/x-icon" />
       <meta name="viewport" content="width=device-width , initial-scale=1.0 , minimum-scale=1.0" />
     </Head>
-    {key && <Navbar key={key} logout={logout} user={user} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart} /> }
+    {key && <Navbar key={key} showSideCart={showSideCart} logout={logout} user={user} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart} /> }
     <main className="flex min-h-screen flex-col items-center justify-between md:px-24 px- py-5">
       <Component {...pageProps} setUser={setUser} user={user} buyNow={buyNow} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart} />
       {/* <Toaster /> */}

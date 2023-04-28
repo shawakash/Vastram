@@ -11,7 +11,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 
 
-const Navbar = ({ user, addInCart, removeFromCart, cart, subTotal, clearCart, logout }) => {
+const Navbar = ({ user, addInCart, removeFromCart, cart, subTotal, clearCart, logout, showSideCart }) => {
     const sideCartRef = useRef();
     const router = useRouter();
     
@@ -27,9 +27,11 @@ const Navbar = ({ user, addInCart, removeFromCart, cart, subTotal, clearCart, lo
             // sideCartRef.current.classList.add('hidden')
         }
     }
-    // useEffect(() => {       
-    //         toggleCart();
-    // }, [router, router.query]);
+    useEffect(() => {       
+        if(showSideCart) {
+            toggleCart()
+        }
+    }, [router, router.query, showSideCart]);
 
     let totalItem = 0;
     Object.keys(cart).map(item => {

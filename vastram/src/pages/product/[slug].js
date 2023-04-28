@@ -9,26 +9,32 @@ import Link from 'next/link';
 import Product from '../../../models/Product';
 import mongoose from 'mongoose';
 import Head from 'next/head';
+import Error from 'next/error';
 
 
-const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
+const Slug = ({ addInCart, product, variants, buyNow, cart, errorStatusCode, title }) => {
     const router = useRouter();
     const { slug } = router.query;
     const pincodeRef = useRef();
     const [servicePin, setServicePin] = useState(null);
-    const [color, setColor] = useState(product.color);
+    const [color, setColor] = useState(product?.color);
     const [qty, setQty] = useState(0);
     const [avail, setAvail] = useState(0);
-    const [size, setSize] = useState(product.size[0])
-
-
-
+    const [size, setSize] = useState(product?.size[0])
+    
+    
+    
     useEffect(() => {
-        setColor(product.color);
-        setSize(product.size);
-        setAvail(product.availqty);
+        if (product) {
+            setColor(product.color);
+            setSize(product.size);
+            setAvail(product.availqty);
+        }
     }, [router, router.query, product])
-
+    if(errorStatusCode) {
+        return <Error statusCode={errorStatusCode} title={title} />;
+    }
+    
     const pincodeCheck = async (e) => {
         e.preventDefault()
         const body = {
@@ -57,7 +63,6 @@ const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
         setSize(Object.keys(variants[e.target.id])[0])
         refreshSlug(Object.keys(variants[e.target.id])[0], e.target.id);
     }
-
     return (
         <>
 
@@ -153,28 +158,32 @@ const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
                                 </div>
                                 <div className="ml-3 flex gap-x-8">
                                     <input type="number" onChange={(e) => setQty(parseInt(e.target.value))} className="border-b-2 font-serif focus:border-[#b6464c] outline-none transition-all text-base md:text-lg py-1 w-40 text-clip cursor-pointer focus:cursor-text overflow-hidden" placeholder='Quantity' required />
-                                    <button onClick={() => {
-                                        addInCart(variants[color][size]['slug'], qty, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
-                                        if (qty > 0) {
-
-                                            toast.success("Added item in cart :) ")
+                                    <button disabled={(product.availqty < qty || product.availqty <= 0) ? true : false} onClick={() => {
+                                        if (qty <= product.availqty) {
+                                            disabled(true);
+                                            addInCart(variants[color][size]['slug'], qty, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
+                                            if (qty > 0) {
+                                                toast.success("Added item in cart :) ")
+                                            } else {
+                                                toast.error("Please Increase the Quantity :)");
+                                            }
                                         } else {
-                                            toast.error("Please Increase the Quantity :)");
+                                            toast.error("That much quantity is out of stock, Please select less quantity :|");
                                         }
-                                    }} className='md:text-xl text-lg  text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><MdAddCircle /></button>
+                                    }} className='md:text-xl text-lg  text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#cf8b8f] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><MdAddCircle /></button>
                                 </div>
                             </div>
                             <div className="flex gap-6 justify-start w-full flex-wrap md:flex-nowrap items-center md:gap-x-8">
-                                <span className="title-font font-medium font-serif md:text-xl  text-lg text-gray-900 w-fit sm:w-fit">₹ {product.price}</span>
+                                <span className="title-font font-medium font-serif md:text-xl  text-lg text-gray-900 w-fit sm:w-fit">{(product.availqty < qty || product.availqty <= 0) ? " Out Of Stock! " : `₹ ${product.price}`}</span>
                                 <Link href={'/checkout'}>
-                                    <button onClick={() => {
+                                    <button disabled={(product.availqty < qty || product.availqty <= 0) ? true : false} onClick={() => {
                                         buyNow(variants[color][size]['slug'], 1, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
                                         toast.success("Checking Out :) ")
-                                    }} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />BuyNow</button>
+                                    }} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#cf8b8f] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />BuyNow</button>
                                 </Link>
                                 <div className=" flex gap-x-4 items-center">
                                     <Link href={'/checkout'}>
-                                        <button disabled={Object.keys(cart).length ? false : true} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#e3868a] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
+                                        <button disabled={((product.availqty < qty || product.availqty <= 0) || (!Object.keys(cart).length)) ? true : false} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#e3868a] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
                                     </Link>
                                     <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                                         <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
@@ -212,24 +221,40 @@ export async function getServerSideProps(context) {
             .then((e) => console.log('Database Connected.'))
             .catch(console.error);
     }
+    try {
 
-    let product = await Product.findOne({ slug: context.query.slug });
-    const variants = await Product.find({ title: product?.title, category: product.category });
-    let colorSizeSlug = {}  // {red: {xl: {slug: "the camis"}}}
-    for (let item of variants) {
-        if (Object.keys(colorSizeSlug).includes(item.color)) {
-            colorSizeSlug[item.color][item.size] = { slug: item?.slug };
-        } else {
-            colorSizeSlug[item.color] = {};
-            colorSizeSlug[item.color][item.size] = { slug: item?.slug };
+        let product = await Product.findOne({ slug: context.query.slug });
+        if (!product) {
+            return {
+                props: {
+                    errorStatusCode: 404,
+                    title: "Sorry, such Product Doesn't Exist!!"
+                }
+            }
         }
-    }
+        const variants = await Product.find({ title: product?.title, category: product.category });
+        let colorSizeSlug = {}  // {red: {xl: {slug: "the camis"}}}
+        for (let item of variants) {
+            if (Object.keys(colorSizeSlug).includes(item.color)) {
+                colorSizeSlug[item.color][item.size] = { slug: item?.slug };
+            } else {
+                colorSizeSlug[item.color] = {};
+                colorSizeSlug[item.color][item.size] = { slug: item?.slug };
+            }
+        }
 
-    console.log(product)
-    return {
-        props: {
-            product: JSON.parse(JSON.stringify(product)),
-            variants: JSON.parse(JSON.stringify(colorSizeSlug))
+        return {
+            props: {
+                product: JSON.parse(JSON.stringify(product)),
+                variants: JSON.parse(JSON.stringify(colorSizeSlug))
+            }
+        }
+    } catch (error) {
+        return {
+            props: {
+                errorStatusCode: 404,
+                title: "Sorry, such Product Doesn't Exist!!"
+            }
         }
     }
 }
