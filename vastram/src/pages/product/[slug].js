@@ -8,9 +8,10 @@ import toast, { Toaster } from 'react-hot-toast';
 import Link from 'next/link';
 import Product from '../../../models/Product';
 import mongoose from 'mongoose';
+import Head from 'next/head';
 
 
-const Slug = ({ addInCart, product, variants, buyNow }) => {
+const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
     const router = useRouter();
     const { slug } = router.query;
     const pincodeRef = useRef();
@@ -51,6 +52,7 @@ const Slug = ({ addInCart, product, variants, buyNow }) => {
 
     return (
         <>
+        
             <section className="text-gray-600 body-font overflow-hidden">
                 <div className="container px-5 pt-12 mx-auto">
                     <div className="lg:w-4/5 mx-auto flex flex-wrap items-center justify-center ">
@@ -118,11 +120,8 @@ const Slug = ({ addInCart, product, variants, buyNow }) => {
                                     <span className="mr-3">Size</span>
                                     <div className="relative -z-20">
                                         <select ref={sizeRef} onChange={(e) => { setSize(e.target.value) }} className=" rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-500 text-base pl-3 pr-10">
-                                            {(Object.keys(variants[color])).map(size => {
-                                                return (
-                                                    <option key={size} >{size}</option>
-                                                );
-                                            })}
+                                            {(Object.keys(variants[color])).map(size => <option value={size} key={size} className="">{size}</option>
+                                            )}
                                         </select>
                                         <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                                             <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4" viewBox="0 0 24 24">
@@ -139,12 +138,16 @@ const Slug = ({ addInCart, product, variants, buyNow }) => {
                                 <span className="title-font font-medium font-serif md:text-2xl text-lg text-gray-900 w-20 sm:w-fit">₹ 500.00</span>
                                 <button onClick={() => {
                                     addInCart(variants[color][size]['slug'], qty, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
+                                    if(qty > 0) {
 
                                     toast.success("Added item in cart :) ")
+                                    } else {
+                                        toast.error("Please Increase the Quantity :)");
+                                    }
                                 }} className='md:text-lg text-lg text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><MdAddCircle /></button>
                                 <div className=" flex gap-x-4">
                                     <Link href={'/checkout'}>
-                                        <button className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
+                                        <button disabled={Object.keys(cart).length? false : true} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#e3868a] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
                                     </Link>
                                     <Link href={'/checkout'}>
                                         <button onClick={() => {
@@ -162,6 +165,7 @@ const Slug = ({ addInCart, product, variants, buyNow }) => {
                             <form onSubmit={pincodeCheck} className="flex w-fit gap-x-5 mt-7 md:gap-x-16">
                                 <input type="number" ref={pincodeRef} className="border-b-2 font-serif focus:border-[#b6464c] outline-none transition-all text-base md:text-lg py-1 w-40 text-clip cursor-pointer focus:cursor-text overflow-hidden" placeholder='Pincode To Check' />
                                 <button onClick={pincodeCheck} className='md:text-lg text-sm text-white font-medium cursor-pointer  bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><FaRegQuestionCircle className='text-xl' />Check</button>
+                                {/* <p className="">{}</p>  to write the avail qty of a particular variant */} 
                             </form>
                             {servicePin == null || !(pincodeRef.current.value) ? <></> : <div className="mt-2">
                                 {servicePin ? <span className='text-green-600 tracking-wide'>We deliver in this pin :)</span> : <span className='text-red-500 tracking-wide'>Sorry, But we are Expanding fastly :)</span>}

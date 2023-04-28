@@ -6,9 +6,17 @@ import { RiAddCircleLine, RiDeleteBin6Line } from 'react-icons/ri';
 import toast, { Toaster } from 'react-hot-toast';
 import Head from 'next/head';
 import Script from 'next/script';
+import { useRouter } from 'next/router';
 
 const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUser, user }) => {
-    
+    const router = useRouter();
+    useEffect(() => {
+        if (Object.keys(cart).length <= 0) {
+            toast.error('Please Add some items in cart first :)');
+            router.push('/');
+        }
+    }, [router, router.query])
+
     const nameRef = useRef(null);
     const emailRef = useRef(null);
     const addressRef = useRef(null);
@@ -16,7 +24,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUse
     const zipRef = useRef(null);
     const cityRef = useRef(null);
     const stateRef = useRef(null);
-    
+
     const [disabled, setDisabled] = useState(true);
 
     const handleChange = (e) => {
@@ -118,7 +126,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUse
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="email" className="font-medium text-slate-700 text-sm md:text-base ">Email</label>
                                 {user.email ?
-                                    <input  value={user.email} ref={emailRef} onChange={handleChange} type="email" name='email' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" readOnly />
+                                    <input title="Can't be changed" value={user.email} ref={emailRef} onChange={handleChange} type="email" name='email' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" readOnly />
                                     :
                                     <input required ref={emailRef} onChange={handleChange} type="email" name='email' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                                 }
@@ -159,7 +167,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUse
                                 <input ref={stateRef} onChange={handleChange} type="text" name='state' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             </div>
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
-                                <label htmlFor="city" className="font-medium text-slate-700 text-sm md:text-base ">City</label>
+                                <label htmlFor="city" className="font-medium text-slate-700 text-sm md:text-base ">District</label>
                                 <input ref={cityRef} onChange={handleChange} type="text" name='city' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             </div>
                         </div>

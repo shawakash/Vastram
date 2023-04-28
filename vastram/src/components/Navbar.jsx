@@ -131,14 +131,14 @@ const Navbar = ({ user, addInCart, removeFromCart, cart, subTotal, clearCart, lo
                             <div className="flex justify-around">
                                 <div className="">
                                     <Link href={'/checkout'}>
-                                        <button onClick={toggleCart} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
+                                        <button onClick={toggleCart} disabled={Object.keys(cart).length? false : true} className='disabled:bg-[#d39295] md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
                                     </Link>
                                 </div>
                                 <div className="">
-                                    <button onClick={(_) => {
+                                    <button disabled={Object.keys(cart).length? false : true} onClick={(_) => {
                                         clearCart()
                                         toast.success('Cart is cleared');
-                                    }} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md px-2 md:px-4 py-1 flex items-center gap-x-2'><RiDeleteBin6Line />Clear</button>
+                                    }} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#d39295] rounded-md px-2 md:px-4 py-1 flex items-center gap-x-2'><RiDeleteBin6Line />Clear</button>
                                 </div>
                             </div>
                         </>
