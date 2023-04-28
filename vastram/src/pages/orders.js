@@ -28,7 +28,6 @@ const Orders = () => {
             fetchOrders()
         }
     }, [router])
-    console.log(orders)
     return (
         <>
 

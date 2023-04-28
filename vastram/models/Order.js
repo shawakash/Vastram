@@ -24,6 +24,10 @@ const OrderSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    pincode: {
+        type: String,
+        required: true,
+    },
     transactionId: {
         type: String,
         default: ''
