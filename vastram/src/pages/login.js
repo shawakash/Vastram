@@ -29,7 +29,6 @@ const Login = ({ setUser }) => {
         });
 
         const data = await response.json();
-        console.log(data)
         if(data.status == 'success') {
             localStorage.setItem("accessToken", data.result.accessToken);
             localStorage.setItem("user", JSON.stringify(data.result.user));
