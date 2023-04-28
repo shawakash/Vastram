@@ -24,7 +24,7 @@ export default function handler(req, res) {
                     value: 'Pincode Not Recieved',
                 })
             }
-            if (Object.keys(pincodes).includes(pincodeRecieved)) {
+            if (Object.keys(pincodes).includes(pincodeRecieved.toString())) {
                 return res.status(200).json({
                     value: true,
                     code: pincodes[pincodeRecieved]

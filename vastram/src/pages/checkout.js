@@ -103,7 +103,6 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUse
     Object.keys(cart).map(item => {
         totalItem += parseInt(cart[item].qty);
     })
-    console.log(user)
     return (
         <>
             <Head>

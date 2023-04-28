@@ -76,7 +76,8 @@ export default function App({ Component, pageProps }) {
       };
     }
     setCart(myCart);
-    saveCart(myCart)
+    saveCart(myCart);
+    // setKey(Math.random()*10000);
   }
 
   const buyNow = (itemCode, qty, price, size, name, color) => {

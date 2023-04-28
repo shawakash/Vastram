@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { RiAccountCircleFill, RiShoppingCartFill } from 'react-icons/ri'
 import { BiNotepad } from 'react-icons/bi'
 // import { IoLogIn } from 'react-icons/io'
@@ -8,15 +8,13 @@ import { HiOutlineLogin, HiOutlineLogout, HiOutlineMinusCircle } from 'react-ico
 import { RiAddCircleLine, RiDeleteBin6Line } from 'react-icons/ri'
 import { BsFillBagCheckFill } from 'react-icons/bs'
 import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
 
 const Navbar = ({ user, addInCart, removeFromCart, cart, subTotal, clearCart, logout }) => {
     const sideCartRef = useRef();
-    let totalItem = 0;
-    Object.keys(cart).map(item => {
-        totalItem += parseInt(cart[item].qty);
-    });
-    const [dropDown, setDropDown] = useState(false);
+    const router = useRouter();
+    
     const toggleCart = () => {
         if (sideCartRef.current.classList.contains('translate-x-full')) {
             sideCartRef.current.classList.remove('translate-x-full')
@@ -29,8 +27,17 @@ const Navbar = ({ user, addInCart, removeFromCart, cart, subTotal, clearCart, lo
             // sideCartRef.current.classList.add('hidden')
         }
     }
+    // useEffect(() => {       
+    //         toggleCart();
+    // }, [router, router.query]);
+
+    let totalItem = 0;
+    Object.keys(cart).map(item => {
+        totalItem += parseInt(cart[item].qty);
+    });
+        const [dropDown, setDropDown] = useState(false);
     return (
-        <nav className="flex flex-col items-center justify-around px-5 py-3 md:flex-row gap-y-2 tracking-wide md:py-7 sticky top-0 bg-white backdrop-blur-lg bg-opacity-70">
+        <nav className="flex flex-col items-center justify-around px-5 py-3 md:flex-row gap-y-2 tracking-wide md:py-7 sticky top-0 bg-white backdrop-blur-lg shadow-md rounded-b-xl bg-opacity-60 z-50">
             <div className="brand font-bold text-xl cursor-pointer md:text-3xl italic text-[#b6464c] font-head tracking-widest -rotate-12">
                 <Link href={'/'}>
                     Vastram
@@ -65,7 +72,7 @@ const Navbar = ({ user, addInCart, removeFromCart, cart, subTotal, clearCart, lo
 
                             <ul className={`absolute right-24 backdrop-blur-lg bg-opacity-80 top-24 md:right-64 md:px-7 md:py-2 md:top-14 md:text-lg text-sm flex flex-col px-3 py-2 bg-[#e5bfc1] rounded-lg gap-y-1 transition-all tracking-wide text-slate-600 `}>
                                 <Link href={'/profile'}><li className="cursor-pointer hover:text-gray-50 transition-all ">Profile</li></Link>
-                                <Link href={'/order'}><li className="cursor-pointer hover:text-gray-50 transition-all ">Orders</li></Link>
+                                <Link href={'/orders'}><li className="cursor-pointer hover:text-gray-50 transition-all ">Orders</li></Link>
                                 <li className="cursor-pointer hover:text-gray-50 transition-all " onClick={logout}>Logout</li>
                             </ul>
 

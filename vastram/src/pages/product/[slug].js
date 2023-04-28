@@ -38,6 +38,7 @@ const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
             method: 'POST',
             body: JSON.stringify(body)
         }).then(a => a.json()).then(({ value }) => {
+            console.log(value)
             if (value) {
                 toast.success('We are ready to delivery at your doorstep :)');
             } else {
@@ -150,30 +151,30 @@ const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
                                         </span>
                                     </div>
                                 </div>
-                                <div className="ml-3">
+                                <div className="ml-3 flex gap-x-8">
                                     <input type="number" onChange={(e) => setQty(parseInt(e.target.value))} className="border-b-2 font-serif focus:border-[#b6464c] outline-none transition-all text-base md:text-lg py-1 w-40 text-clip cursor-pointer focus:cursor-text overflow-hidden" placeholder='Quantity' required />
+                                    <button onClick={() => {
+                                        addInCart(variants[color][size]['slug'], qty, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
+                                        if (qty > 0) {
+
+                                            toast.success("Added item in cart :) ")
+                                        } else {
+                                            toast.error("Please Increase the Quantity :)");
+                                        }
+                                    }} className='md:text-xl text-lg  text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><MdAddCircle /></button>
                                 </div>
                             </div>
-                            <div className="flex gap-x-6 w-full items-center md:gap-x-10">
-                                <span className="title-font font-medium font-serif md:text-2xl text-lg text-gray-900 w-20 sm:w-fit">₹ 500.00</span>
-                                <button onClick={() => {
-                                    addInCart(variants[color][size]['slug'], qty, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
-                                    if (qty > 0) {
-
-                                        toast.success("Added item in cart :) ")
-                                    } else {
-                                        toast.error("Please Increase the Quantity :)");
-                                    }
-                                }} className='md:text-lg text-lg text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><MdAddCircle /></button>
-                                <div className=" flex gap-x-4">
+                            <div className="flex gap-6 justify-start w-full flex-wrap md:flex-nowrap items-center md:gap-x-8">
+                                <span className="title-font font-medium font-serif md:text-xl  text-lg text-gray-900 w-fit sm:w-fit">₹ {product.price}</span>
+                                <Link href={'/checkout'}>
+                                    <button onClick={() => {
+                                        buyNow(variants[color][size]['slug'], qty, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
+                                        toast.success("Checking Out :) ")
+                                    }} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />BuyNow</button>
+                                </Link>
+                                <div className=" flex gap-x-4 items-center">
                                     <Link href={'/checkout'}>
                                         <button disabled={Object.keys(cart).length ? false : true} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#e3868a] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
-                                    </Link>
-                                    <Link href={'/checkout'}>
-                                        <button onClick={() => {
-                                            buyNow(variants[color][size]['slug'], qty, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
-                                            toast.success("Checking Out :) ")
-                                        }} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />BuyNow</button>
                                     </Link>
                                     <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                                         <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
@@ -182,10 +183,10 @@ const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
                                     </button>
                                 </div>
                             </div>
-                            <form onSubmit={pincodeCheck} className="flex w-fit gap-x-5 mt-7 md:gap-x-16">
+                            <form onSubmit={pincodeCheck} className="flex w-fit gap-6 mt-7 md:gap-x-16 flex-wrap items-center justify-start">
                                 <input type="number" ref={pincodeRef} className="border-b-2 font-serif focus:border-[#b6464c] outline-none transition-all text-base md:text-lg py-1 w-40 text-clip cursor-pointer focus:cursor-text overflow-hidden" placeholder='Pincode To Check' />
                                 <button onClick={pincodeCheck} className='md:text-lg text-sm text-white font-medium cursor-pointer  bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><FaRegQuestionCircle className='text-xl' />Check</button>
-                                <p className="">{avail}</p>  to write the avail qty of a particular variant
+                                <p className="flex gap-x-4 font-medium text-base"><span className=''>Available Quantity:</span><span className="font-serif">{avail}</span></p>
                             </form>
                             {servicePin == null || !(pincodeRef.current.value) ? <></> : <div className="mt-2">
                                 {servicePin ? <span className='text-green-600 tracking-wide'>We deliver in this pin :)</span> : <span className='text-red-500 tracking-wide'>Sorry, But we are Expanding fastly :)</span>}
