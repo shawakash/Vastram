@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BsFillBagCheckFill, BsQuestionCircle } from 'react-icons/bs';
 import { FaRegQuestionCircle } from 'react-icons/fa';
 import { MdAddCircle } from 'react-icons/md';
@@ -16,12 +16,18 @@ const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
     const { slug } = router.query;
     const pincodeRef = useRef();
     const [servicePin, setServicePin] = useState(null);
+    const [color, setColor] = useState(product.color);
+    const [qty, setQty] = useState(0);
+    const [avail, setAvail] = useState(0);
+    const [size, setSize] = useState(product.size[0])
 
-    // useEffect(() => {
-    //     return {
-    //         setServicePin();
-    //     }
-    // })
+
+
+    useEffect(() => {
+        setColor(product.color);
+        setSize(product.size);
+        setAvail(product.availqty);
+    }, [router, router.query, product])
 
     const pincodeCheck = async (e) => {
         e.preventDefault()
@@ -40,19 +46,20 @@ const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
             setServicePin(value)
         })
     }
+    const refreshSlug = (size, color) => {
+        let url = `${process.env.NEXT_PUBLIC_BASEURL}/product/${variants[color][size]['slug']}`;
+        router.push(url);
+    }
     const sizeRef = useRef();
-    const [color, setColor] = useState(Object.keys(variants)[0]);
-    const [qty, setQty] = useState(0);
-    const [size, setSize] = useState(Object.keys(variants[Object.keys(variants)[0]])[0])
     const selectColor = (e) => {
         setColor(e.target.id);
         setSize(Object.keys(variants[e.target.id])[0])
+        refreshSlug(Object.keys(variants[e.target.id])[0], e.target.id);
     }
-
 
     return (
         <>
-        
+
             <section className="text-gray-600 body-font overflow-hidden">
                 <div className="container px-5 pt-12 mx-auto">
                     <div className="lg:w-4/5 mx-auto flex flex-wrap items-center justify-center ">
@@ -108,18 +115,31 @@ const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
                                             <button key={cl} onClick={selectColor}  id={cl} className={`border-2 border-gray-300 ml-1 bg-${cl}-500  rounded-full w-6 h-6 focus:outline-none`}></button>
                                         );
                                     })} */}
-                                        {Object.keys(variants).includes('Red') && <button onClick={selectColor} id='Red' className={`border-2 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none ${color == 'Red' ? 'border-black' : 'border-gray-400'}`}></button>}
-                                        {Object.keys(variants).includes('Black') && <button onClick={selectColor} id='Black' className={`border-2 ml-1 bg-black rounded-full w-6 h-6 focus:outline-none ${color == 'Black' ? 'border-black' : 'border-gray-400'}`}></button>}
-                                        {Object.keys(variants).includes('Brown') && <button onClick={selectColor} id='Brown' className={`border-2 ml-1 bg-amber-700 rounded-full w-6 h-6 focus:outline-none ${color == 'Brown' ? 'border-black' : 'border-gray-400'}`}></button>}
-                                        {Object.keys(variants).includes('Blue') && <button onClick={selectColor} id='Blue' className={`border-2 ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none ${color == 'Blue' ? 'border-black' : 'border-gray-400'}`}></button>}
-                                        {Object.keys(variants).includes('White') && <button onClick={selectColor} id='White' className={`border-2 ml-1 bg-white rounded-full w-6 h-6 focus:outline-none ${color == 'White' ? 'border-black' : 'border-gray-400'}`}></button>}
+                                        {Object.keys(variants).includes('Red') && <button onClick={(e) => {
+                                            selectColor(e)
+                                        }} id='Red' className={`border-2 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none ${color == 'Red' ? 'border-black' : 'border-gray-400'}`}></button>}
+                                        {Object.keys(variants).includes('Black') && <button onClick={(e) => {
+                                            selectColor(e)
+                                        }} id='Black' className={`border-2 ml-1 bg-black rounded-full w-6 h-6 focus:outline-none ${color == 'Black' ? 'border-black' : 'border-gray-400'}`}></button>}
+                                        {Object.keys(variants).includes('Brown') && <button onClick={(e) => {
+                                            selectColor(e)
+                                        }} id='Brown' className={`border-2 ml-1 bg-amber-700 rounded-full w-6 h-6 focus:outline-none ${color == 'Brown' ? 'border-black' : 'border-gray-400'}`}></button>}
+                                        {Object.keys(variants).includes('Blue') && <button onClick={(e) => {
+                                            selectColor(e);
+                                        }} id='Blue' className={`border-2 ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none ${color == 'Blue' ? 'border-black' : 'border-gray-400'}`}></button>}
+                                        {Object.keys(variants).includes('White') && <button onClick={(e) => {
+                                            selectColor(e)
+                                        }} id='White' className={`border-2 ml-1 bg-white rounded-full w-6 h-6 focus:outline-none ${color == 'White' ? 'border-black' : 'border-gray-400'}`}></button>}
 
                                     </div>
                                 </div>
                                 <div className="flex mx-1 items-center ">
                                     <span className="mr-3">Size</span>
                                     <div className="relative -z-20">
-                                        <select ref={sizeRef} onChange={(e) => { setSize(e.target.value) }} className=" rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-500 text-base pl-3 pr-10">
+                                        <select ref={sizeRef} onChange={(e) => {
+                                            setSize(e.target.value)
+                                            refreshSlug(e.target.value, color);
+                                        }} className=" rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-500 text-base pl-3 pr-10">
                                             {(Object.keys(variants[color])).map(size => <option value={size} key={size} className="">{size}</option>
                                             )}
                                         </select>
@@ -131,23 +151,23 @@ const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
                                     </div>
                                 </div>
                                 <div className="ml-3">
-                                    <input type="number" onChange={(e) => setQty(parseInt(e.target.value))} className="border-b-2 font-serif focus:border-[#b6464c] outline-none transition-all text-base md:text-lg py-1 w-40 text-clip cursor-pointer focus:cursor-text overflow-hidden" placeholder='Quantity' required/>
+                                    <input type="number" onChange={(e) => setQty(parseInt(e.target.value))} className="border-b-2 font-serif focus:border-[#b6464c] outline-none transition-all text-base md:text-lg py-1 w-40 text-clip cursor-pointer focus:cursor-text overflow-hidden" placeholder='Quantity' required />
                                 </div>
                             </div>
                             <div className="flex gap-x-6 w-full items-center md:gap-x-10">
                                 <span className="title-font font-medium font-serif md:text-2xl text-lg text-gray-900 w-20 sm:w-fit">₹ 500.00</span>
                                 <button onClick={() => {
                                     addInCart(variants[color][size]['slug'], qty, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
-                                    if(qty > 0) {
+                                    if (qty > 0) {
 
-                                    toast.success("Added item in cart :) ")
+                                        toast.success("Added item in cart :) ")
                                     } else {
                                         toast.error("Please Increase the Quantity :)");
                                     }
                                 }} className='md:text-lg text-lg text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><MdAddCircle /></button>
                                 <div className=" flex gap-x-4">
                                     <Link href={'/checkout'}>
-                                        <button disabled={Object.keys(cart).length? false : true} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#e3868a] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
+                                        <button disabled={Object.keys(cart).length ? false : true} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#e3868a] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
                                     </Link>
                                     <Link href={'/checkout'}>
                                         <button onClick={() => {
@@ -165,7 +185,7 @@ const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
                             <form onSubmit={pincodeCheck} className="flex w-fit gap-x-5 mt-7 md:gap-x-16">
                                 <input type="number" ref={pincodeRef} className="border-b-2 font-serif focus:border-[#b6464c] outline-none transition-all text-base md:text-lg py-1 w-40 text-clip cursor-pointer focus:cursor-text overflow-hidden" placeholder='Pincode To Check' />
                                 <button onClick={pincodeCheck} className='md:text-lg text-sm text-white font-medium cursor-pointer  bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><FaRegQuestionCircle className='text-xl' />Check</button>
-                                {/* <p className="">{}</p>  to write the avail qty of a particular variant */} 
+                                <p className="">{avail}</p>  to write the avail qty of a particular variant
                             </form>
                             {servicePin == null || !(pincodeRef.current.value) ? <></> : <div className="mt-2">
                                 {servicePin ? <span className='text-green-600 tracking-wide'>We deliver in this pin :)</span> : <span className='text-red-500 tracking-wide'>Sorry, But we are Expanding fastly :)</span>}
@@ -175,7 +195,7 @@ const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
         </>
     )
 }
