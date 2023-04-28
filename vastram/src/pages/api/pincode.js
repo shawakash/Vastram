@@ -1,22 +1,8 @@
-
+import pincodes from '../../../pincodes.json'
 export default function handler(req, res) {
     if (req.method == 'POST') {
 
         try {
-            const pincodes = {
-                545445: {
-                    city: "Bangalore",
-                    state: "Karnataka"
-                }, 
-                700015: {
-                    city: "Kolkata",
-                    state: "West Bengal"
-                }, 
-                781039: {
-                    city: "Guwahati",
-                    state: "Assam"
-                }
-            };
             const body = JSON.parse(req.body);
             const pincodeRecieved = body.pincode;
             if (!pincodeRecieved) {

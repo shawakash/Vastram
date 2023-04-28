@@ -27,7 +27,7 @@ const handler = async (req, res) => {
 
 
             // update order status to confirm
-            const order = await Order.findOneAndUpdate({ orderId: req.body.ORDERID }, { status: 'PAID', paymentInfo: JSON.stringify(req.body) });
+            const order = await Order.findOneAndUpdate({ orderId: req.body.ORDERID }, { status: 'PAID', paymentInfo: JSON.stringify(req.body), transactionId: (JSON.stringify(req.body)).TXNID });
             const orderedProducts = order.products;
             for (let orderedProduct in orderedProducts) {
                 const product = await Product.findOneAndUpdate({ slug: orderedProduct }, {
@@ -39,7 +39,7 @@ const handler = async (req, res) => {
             // redirect to order pages 
             return res.status(200).redirect(`/order?${order._id}`, 200);
         } else if (req.body.STATUS == 'PENDING') {
-            const order = await Order.findOneAndUpdate({ orderId: req.body.ORDERID }, { status: 'PAYMENT PROBLEM', paymentInfo: JSON.stringify(req.body) });
+            const order = await Order.findOneAndUpdate({ orderId: req.body.ORDERID }, { status: 'PAYMENT PROBLEM', paymentInfo: JSON.stringify(req.body), transactionId: (JSON.stringify(req.body)).TXNID });
             // redirect to order pages 
             return res.status(200).redirect(`/order?id=${order._id}`, 200);
         }

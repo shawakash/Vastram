@@ -59,7 +59,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUse
         });
         let transactionResponse = await response.json();
         if (transactionResponse.status == 'error') {
-            if (transactionResponse.message.includes("Cart has been tampered")) {
+            if (transactionResponse.message.includes("Cart has been tampered") || transactionResponse.message.includes("OUT OF STOCK")) {
                 clearCart();
             }
             // if (transactionResponse.message.includes("OUT OF STOCK")) {
@@ -154,10 +154,10 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUse
                                             stateRef.current.value = data.code.state;
                                             cityRef.current.value = data.code.city;
                                         } 
-                                        // else {
-                                        //     toast.error("Sorry we don't delivery there");
-                                        //     setDisabled(true);
-                                        // }   // after adding all pincodes 
+                                        else {
+                                            toast.error("Sorry we don't delivery there");
+                                            setDisabled(true);
+                                        }   // after adding all pincodes 
                                     }
                                     handleChange()
                                 }} type="number" name='pincode' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />

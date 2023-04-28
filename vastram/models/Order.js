@@ -9,21 +9,24 @@ const OrderSchema = new mongoose.Schema({
         required: true
     },
     paymentInfo: {
-        type: String, 
+        type: String,
+        default: ''
     },
     orderId: {
         type: String, 
         required: true
     },
-    products: 
-        {
+    products: {
             type: Object,
             required: true
-        }
-    ,
+        },
     address: {
         type: String,
         required: true,
+    },
+    transactionId: {
+        type: String,
+        default: ''
     },
     amount: {
         type: Number,

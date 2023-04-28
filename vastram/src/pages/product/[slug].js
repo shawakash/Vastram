@@ -21,6 +21,7 @@ const Slug = ({ addInCart, product, variants, buyNow, cart, errorStatusCode, tit
     const [qty, setQty] = useState(0);
     const [avail, setAvail] = useState(0);
     const [size, setSize] = useState(product?.size[0])
+    const sizeRef = useRef();
     
     
     
@@ -57,7 +58,6 @@ const Slug = ({ addInCart, product, variants, buyNow, cart, errorStatusCode, tit
         let url = `${process.env.NEXT_PUBLIC_BASEURL}/product/${variants[color][size]['slug']}`;
         router.push(url);
     }
-    const sizeRef = useRef();
     const selectColor = (e) => {
         setColor(e.target.id);
         setSize(Object.keys(variants[e.target.id])[0])

@@ -3,7 +3,7 @@ import connectDb from "../../../middleware/connectDb"
 import { resolve } from 'path';
 import Order from '../../../models/Order';
 import Product from '../../../models/Product';
-
+import pincodes from '../../../pincodes.json'
 const https = require('https');
 const PaytmChecksum = require('paytmchecksum');
 
@@ -12,22 +12,26 @@ const handler = async (req, res) => {
     if (req.method == 'POST') {
 
         const { cart, subTotal, oid, email, name, address, zipCode, phone } = JSON.parse(req.body);
-        console.log('From PreTrans', name)
         // Check the details of address ....
-        if((phone).toString().length != 10) {
+        if ((phone).toString().length != 10) {
             return res.status(500).send(wrapResponse.error(500, 'Please enter a valid 10 digits phone number :|'));
         }
-        if((zipCode).toString().length != 6) {
+        if ((zipCode).toString().length != 6) {
             return res.status(500).send(wrapResponse.error(500, 'Please enter a valid 6 digits pincode :|'));
         }
-        
+
+        if (!Object.keys(pincodes).includes(zipCode.toString())) {
+            return res.status(404).send(wrapResponse.error(404, 'That Pincode is currently not serviceable :('));
+        }
+
+
         // Check if cart is tampered
         let originalTotal = 0;
         for (let item in cart) {
             const product = await Product.findOne({ slug: item });
             originalTotal += (product.price) * (cart[item].qty)
             // Check if Items required in stock
-            if(cart[item].qty > product.availqty) {
+            if (cart[item].qty > product.availqty) {
                 return res.status(500).send(wrapResponse.error(500, 'Some items in cart is OUT OF STOCK, Please try later! :)'));
             }
             if (cart[item].price != product.price) {

@@ -37,6 +37,7 @@ const Order = ({ cart, subTotal, order }) => {
                         <div className="flex mb-4 font-medium ">
                             <a className="flex-grow text-center py-2 text-lg px-1">Description</a>
                             <a className="flex-grow text-center py-2 text-lg px-1">Quantity</a>
+                            <a className="flex-grow text-center py-2 text-lg px-1">Item Price</a>
                             <a className="flex-grow text-center py-2 text-lg px-1">Price</a>
                         </div>
                         {Object.keys(order?.products).map(item => {
@@ -45,6 +46,7 @@ const Order = ({ cart, subTotal, order }) => {
                                     <div key={item} className="flex border-t border-b border-gray-200 py-2 justify-around items-center">
                                         <div className="w-full text-center text-gray-500">{order?.products[item].name}</div>
                                         <div className="w-full text-center font-serif text-gray-900">{order?.products[item].qty}</div>
+                                        <div className="w-full text-center font-serif text-gray-900">₹ {order?.products[item].price}</div>
                                         <div className="w-full text-center font-serif text-gray-900">₹ {order?.products[item].qty * order.products[item].price}</div>
                                     </div>
                                 </Link>
