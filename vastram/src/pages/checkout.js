@@ -8,23 +8,24 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
 
-const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUser, user }) => {
+const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
     const router = useRouter();
+    const [user, setUser] = useState({})
+    const nameRef = useRef(null);
+    const emailRef = useRef(null);
+    const addressRef = useRef();
+    const phoneRef = useRef(null);
+    const zipRef = useRef(null);
+    const cityRef = useRef(null);
+    const stateRef = useRef(null);
     useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem("user")));
         if (Object.keys(cart).length <= 0) {
             toast.error('Please Add some items in cart first :)');
             router.push('/');
         }
     }, [router, router.query])
-
-    const nameRef = useRef(null);
-    const emailRef = useRef(null);
-    const addressRef = useRef(null);
-    const phoneRef = useRef(null);
-    const zipRef = useRef(null);
-    const cityRef = useRef(null);
-    const stateRef = useRef(null);
-
+    
     const [disabled, setDisabled] = useState(true);
 
     const handleChange = (e) => {
@@ -99,6 +100,25 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUse
 
     }
 
+    const stateCity = async () => {
+        if (zipRef.current.value.length == 6) {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/pincode`, {
+                method: 'POST',
+                body: JSON.stringify({ pincode: zipRef.current.value })
+            });
+            const data = await response.json();
+            if (data.value) {
+                stateRef.current.value = data.code.state;
+                cityRef.current.value = data.code.city;
+            } 
+            else {
+                toast.error("Sorry we don't delivery there");
+                setDisabled(true);
+            }   // after adding all pincodes 
+        }
+        handleChange()
+    }
+
     let totalItem = 0;
     Object.keys(cart).map(item => {
         totalItem += parseInt(cart[item].qty);
@@ -120,7 +140,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUse
                         <div className="flex gap-x-2 md:gap-x-8">
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="name" className="font-medium text-slate-700 text-sm md:text-base ">Name</label>
-                                <input ref={nameRef} onChange={handleChange} type="text" name='name' required className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                                <input ref={nameRef} defaultValue={user.name} onChange={handleChange} type="text" name='name' required className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             </div>
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="email" className="font-medium text-slate-700 text-sm md:text-base ">Email</label>
@@ -134,33 +154,16 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUse
 
                         <div className="flex flex-col gap-y-2">
                             <label htmlFor="address" className="font-medium text-slate-700 text-sm md:text-base ">Address</label>
-                            <textarea required ref={addressRef} onChange={handleChange} rows={'5'} cols={'10'} type="text" name='email' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                            <textarea required ref={addressRef} defaultValue={user.address} onChange={handleChange} rows={'5'} cols={'10'} type="text" name='email' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                         </div>
                         <div className="flex gap-x-2 md:gap-x-8">
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="Phone" className="font-medium text-slate-700 text-sm md:text-base ">Phone Number</label>
-                                <input required ref={phoneRef} onChange={handleChange} placeholder= 'Your 10 Digit Phone Number' type="number" name='Phone' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                                <input required ref={phoneRef} defaultValue={user.phone} onChange={handleChange} placeholder= 'Your 10 Digit Phone Number' type="number" name='Phone' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl"/>
                             </div>
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="pincode" className="font-medium text-slate-700 text-sm md:text-base ">Zip/Pin code</label>
-                                <input required ref={zipRef} placeholder='Valid 6 Digit Pincode' onChange={async () => {
-                                    if (zipRef.current.value.length == 6) {
-                                        const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/pincode`, {
-                                            method: 'POST',
-                                            body: JSON.stringify({ pincode: zipRef.current.value })
-                                        });
-                                        const data = await response.json();
-                                        if (data.value) {
-                                            stateRef.current.value = data.code.state;
-                                            cityRef.current.value = data.code.city;
-                                        } 
-                                        else {
-                                            toast.error("Sorry we don't delivery there");
-                                            setDisabled(true);
-                                        }   // after adding all pincodes 
-                                    }
-                                    handleChange()
-                                }} type="number" name='pincode' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                                <input required ref={zipRef} defaultValue={user.pincode} placeholder='Valid 6 Digit Pincode'  onChange={stateCity} type="number" name='pincode' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             </div>
 
                         </div>

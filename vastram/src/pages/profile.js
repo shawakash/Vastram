@@ -19,6 +19,7 @@ const Profile = ({user, setUser}) => {
     const zipRef = useRef('');
     const passRef = useRef('');
     const cPassRef = useRef('');
+    const [dbuser, setDbuser] = useState({});
     const [disabled, setDisabled] = useState(true)
     const [disabled2, setDisabled2] = useState(true)
 
@@ -26,6 +27,7 @@ const Profile = ({user, setUser}) => {
         if(!localStorage.getItem("accessToken")) {
             router.push('/login');
         }
+        setDbuser(JSON.parse(localStorage.getItem("user")))
     }, [router, router.query])
 
     const handleChange = (e) => {
@@ -53,7 +55,7 @@ const Profile = ({user, setUser}) => {
         } else {
 
             const data = {
-                email: user.email,
+                email: dbuser.email,
                 name: nameRef.current.value,
                 address: addressRef.current.value,
                 phone: phoneRef.current.value,
@@ -91,7 +93,7 @@ const Profile = ({user, setUser}) => {
                     <div className="flex gap-x-2 md:gap-x-8">
                         <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                             <label htmlFor="name" className="font-medium text-slate-700 text-sm md:text-base ">Name</label>
-                            <input ref={nameRef} onChange={handleChange} type="text" name='name' required className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                            <input ref={nameRef} defaultValue={dbuser.name} onChange={handleChange} type="text" name='name' required className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                         </div>
                         <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                             <label htmlFor="email" className="font-medium text-slate-700 text-sm md:text-base ">Email (Can't be changed)</label>
@@ -105,16 +107,16 @@ const Profile = ({user, setUser}) => {
 
                     <div className="flex flex-col gap-y-2">
                         <label htmlFor="address" className="font-medium text-slate-700 text-sm md:text-base ">Address</label>
-                        <textarea required ref={addressRef} onChange={handleChange} rows={'5'} cols={'10'} type="text" name='email' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                        <textarea required ref={addressRef} defaultValue={dbuser.address} onChange={handleChange} rows={'5'} cols={'10'} type="text" name='email' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                     </div>
                     <div className="flex gap-x-2 md:gap-x-8">
                         <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                             <label htmlFor="Phone" className="font-medium text-slate-700 text-sm md:text-base ">Phone Number</label>
-                            <input required ref={phoneRef} onChange={handleChange} placeholder='Your 10 Digit Phone Number' type="number" name='Phone' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                            <input required ref={phoneRef} defaultValue={dbuser.phone} onChange={handleChange} placeholder='Your 10 Digit Phone Number' type="number" name='Phone' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                         </div>
                         <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                             <label htmlFor="pincode" className="font-medium text-slate-700 text-sm md:text-base ">Zip/Pin code</label>
-                            <input required ref={zipRef} placeholder='Valid 6 Digit Pincode' onChange={async () => {
+                            <input required ref={zipRef} defaultValue={dbuser.pincode} placeholder='Valid 6 Digit Pincode' onChange={async () => {
                                 if (zipRef.current.value.length == 6) {
                                     const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/pincode`, {
                                         method: 'POST',
