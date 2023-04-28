@@ -10,8 +10,7 @@ const handler = async (req, res) => {
         try {
             const { address, pincode, phone, name, password, email } = JSON.parse(req.body);
             const encryptNewPassword = CryptoJS.AES.encrypt(password, `${process.env.SECRET_KEY}`).toString();
-
-            const dbuser = await User.findOneAndUpdate({ email }, { address, pincode, phone, name, encryptNewPassword });
+            const dbuser = await User.findOneAndUpdate({ email }, { address, pincode, phone, name, password: encryptNewPassword });
             if (!dbuser) {
                 return res.status(500).send(wrapResponse.error(500, 'User Not Found :('));
             }

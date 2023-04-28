@@ -136,7 +136,7 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart }) => {
                 </div>
                 <div className="details flex flex-col gap-y-2">
                     <div className="font-medium text-base md:text-lg w-fit px-2 rounded-lg hover:shadow-lg transition-all">1. Consumer Details</div>
-                    <form action="" className="details flex flex-col shadow-md rounded-lg gap-y-4 py-10 px-8 md:px-10 tracking-wide">
+                    <form spellCheck='false' className="details flex flex-col shadow-md rounded-lg gap-y-4 py-10 px-8 md:px-10 tracking-wide">
                         <div className="flex gap-x-2 md:gap-x-8">
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="name" className="font-medium text-slate-700 text-sm md:text-base ">Name</label>

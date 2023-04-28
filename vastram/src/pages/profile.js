@@ -10,7 +10,7 @@ import Script from 'next/script';
 import { useRouter } from 'next/router';
 import User from '../../models/User';
 
-const Profile = ({user, setUser}) => {
+const Profile = ({ user, setUser }) => {
     const router = useRouter();
     const nameRef = useRef('');
     const emailRef = useRef('');
@@ -24,7 +24,7 @@ const Profile = ({user, setUser}) => {
     const [disabled2, setDisabled2] = useState(true)
 
     useEffect(() => {
-        if(!localStorage.getItem("accessToken")) {
+        if (!localStorage.getItem("accessToken")) {
             router.push('/login');
         }
         setDbuser(JSON.parse(localStorage.getItem("user")))
@@ -50,7 +50,7 @@ const Profile = ({user, setUser}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(passRef.current.value != cPassRef.current.value) {
+        if (passRef.current.value != cPassRef.current.value) {
             toast.error("Password is not equal to Confirm Password");
         } else {
 
@@ -67,14 +67,17 @@ const Profile = ({user, setUser}) => {
                 body: JSON.stringify(data)
             });
             const resJson = await response.json();
-    
-            if(resJson.status == 'error') {
+            console.log(resJson)
+
+            if (resJson.status == 'error') {
                 toast.error(resJson.message);
             } else {
                 localStorage.setItem("user", JSON.stringify(resJson.result.user));
                 localStorage.setItem("accessToken", resJson.result.accessToken);
-                setUser({value: resJson.result.accessToken });
-                toast.success('Updated Your Profile')
+                setUser({ value: resJson.result.accessToken });
+                toast.success('Updated Your Profile');
+                passRef.current.value = '';
+                cPassRef.current.value = '';
                 router.push('/profile')
             }
         }
@@ -89,7 +92,7 @@ const Profile = ({user, setUser}) => {
             </div>
             <div className="details flex flex-col gap-y-2">
                 <div className="font-medium text-base md:text-lg w-fit px-2 rounded-lg hover:shadow-lg transition-all">1. Delivery Details</div>
-                <form onSubmit={handleSubmit} className="details flex flex-col shadow-md rounded-lg gap-y-4 py-10 px-8 md:px-10 tracking-wide">
+                <form spellCheck='false' onSubmit={handleSubmit} className="details flex flex-col shadow-md rounded-lg gap-y-4 py-10 px-8 md:px-10 tracking-wide">
                     <div className="flex gap-x-2 md:gap-x-8">
                         <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                             <label htmlFor="name" className="font-medium text-slate-700 text-sm md:text-base ">Name</label>
@@ -134,9 +137,9 @@ const Profile = ({user, setUser}) => {
                             }} type="number" name='pincode' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                         </div>
                     </div>
-                        <div className="">
-                            <button disabled={disabled} type='submit' className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#cf8b8f] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'>Submit</button>
-                        </div>
+                    <div className="">
+                        <button disabled={disabled} type='submit' className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#cf8b8f] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'>Submit</button>
+                    </div>
                 </form>
             </div>
             <div className="details flex flex-col gap-y-2">
@@ -145,20 +148,20 @@ const Profile = ({user, setUser}) => {
                     <div className="flex gap-x-2 md:gap-x-8">
                         <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                             <label htmlFor="password" className="font-medium text-slate-700 text-sm md:text-base ">Password</label>
-                            <input ref={passRef} onChange={handleChange} type="password" name='password' required className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                            <input ref={passRef} onChange={handleChange} defaultValue={''} type="password" name='password' required className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                         </div>
                         <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                             <label htmlFor="password" className="font-medium text-slate-700 text-sm md:text-base ">Confirm Password</label>
-                            <input ref={cPassRef} onChange={handleChange} type="password" name='password' required className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                            <input ref={cPassRef} onChange={handleChange} defaultValue={''} type="password" name='password' required className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             {/* {disabled2? <p className="text-sm text-red-500 tracking-wide font-medium">Passwords doesn't match :|</p> : <p className='opacity-0'>Passwords matched :)</p> } */}
-                            <p className={`text-sm text-red-500 tracking-wide font-medium ${(disabled2)? '' : 'opacity-0'}`}>Passwords doesn't match :|</p>
+                            <p className={`text-sm text-red-500 tracking-wide font-medium ${(disabled2) ? '' : 'opacity-0'}`}>Passwords doesn't match :|</p>
                         </div>
 
 
                     </div>
                     <div className="">
-                            <button disabled={disabled2} type='submit' className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#cf8b8f] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'>Submit</button>
-                        </div>
+                        <button disabled={disabled2} type='submit' className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#cf8b8f] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'>Submit</button>
+                    </div>
                 </form>
             </div>
             <Toaster />
