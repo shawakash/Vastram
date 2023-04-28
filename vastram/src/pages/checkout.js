@@ -60,12 +60,12 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUse
         let transactionResponse = await response.json();
         if (transactionResponse.status == 'error') {
             if (transactionResponse.message.includes("Cart has been tampered")) {
-                toast.error('Cart has been tampered');
                 clearCart();
             }
-            if (transactionResponse.message.includes("OUT OF STOCK")) {
-                toast.error(transactionResponse.message);
-            }
+            // if (transactionResponse.message.includes("OUT OF STOCK")) {
+            //     toast.error(transactionResponse.message);
+            // }
+            toast.error(transactionResponse.message);
         }
 
 
@@ -139,12 +139,12 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUse
                         </div>
                         <div className="flex gap-x-2 md:gap-x-8">
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
-                                <label htmlFor="Phone" className="font-medium text-slate-700 text-sm md:text-base ">Phone</label>
-                                <input required ref={phoneRef} onChange={handleChange} type="number" name='Phone' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
+                                <label htmlFor="Phone" className="font-medium text-slate-700 text-sm md:text-base ">Phone Number</label>
+                                <input required ref={phoneRef} onChange={handleChange} placeholder= 'Your 10 Digit Phone Number' type="number" name='Phone' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />
                             </div>
                             <div className="flex flex-col w-1/2 md:w-1/2 gap-y-2">
                                 <label htmlFor="pincode" className="font-medium text-slate-700 text-sm md:text-base ">Zip/Pin code</label>
-                                <input required ref={zipRef} onChange={async () => {
+                                <input required ref={zipRef} placeholder='Valid 6 Digit Pincode' onChange={async () => {
                                     if (zipRef.current.value.length == 6) {
                                         const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/pincode`, {
                                             method: 'POST',
@@ -154,7 +154,11 @@ const Checkout = ({ cart, removeFromCart, addInCart, subTotal, clearCart, setUse
                                         if (data.value) {
                                             stateRef.current.value = data.code.state;
                                             cityRef.current.value = data.code.city;
-                                        }
+                                        } 
+                                        // else {
+                                        //     toast.error("Sorry we don't delivery there");
+                                        //     setDisabled(true);
+                                        // }   // after adding all pincodes 
                                     }
                                     handleChange()
                                 }} type="number" name='pincode' className="border-2 border-slate-300 rounded-md focus:border-[#db7075] py-[0.5px] transition-all outline-none px-2 md:py-1 text-sm md:text-xl" />

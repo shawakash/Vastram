@@ -13,21 +13,20 @@ const handler = async (req, res) => {
 
         const { cart, subTotal, oid, email, name, address, zipCode, phone } = JSON.parse(req.body);
         console.log('From PreTrans', name)
-        const order = new Order({
-            email,
-            orderId: oid,
-            address,
-            amount: subTotal,
-            products: cart,
-            name
-        });
-        const respo = await order.save();
-
+        // Check the details of address ....
+        if((phone).toString().length != 10) {
+            return res.status(500).send(wrapResponse.error(500, 'Please enter a valid 10 digits phone number :|'));
+        }
+        if((zipCode).toString().length != 6) {
+            return res.status(500).send(wrapResponse.error(500, 'Please enter a valid 6 digits pincode :|'));
+        }
+        
         // Check if cart is tampered
         let originalTotal = 0;
         for (let item in cart) {
             const product = await Product.findOne({ slug: item });
             originalTotal += (product.price) * (cart[item].qty)
+            // Check if Items required in stock
             if(cart[item].qty > product.availqty) {
                 return res.status(500).send(wrapResponse.error(500, 'Some items in cart is OUT OF STOCK, Please try later! :)'));
             }
@@ -38,8 +37,15 @@ const handler = async (req, res) => {
         if (originalTotal != subTotal) {
             return res.status(500).send(wrapResponse.error(500, 'Cart has been tampered'));
         }
-        // Check if Items required in stock
-        // Check the details of address ....
+        const order = new Order({
+            email,
+            orderId: oid,
+            address,
+            amount: subTotal,
+            products: cart,
+            name
+        });
+        const respo = await order.save();
         // iff then generate a transatcion id
 
         var paytmParams = {};
