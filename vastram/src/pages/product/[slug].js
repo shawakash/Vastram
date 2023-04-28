@@ -168,7 +168,7 @@ const Slug = ({ addInCart, product, variants, buyNow, cart }) => {
                                 <span className="title-font font-medium font-serif md:text-xl  text-lg text-gray-900 w-fit sm:w-fit">₹ {product.price}</span>
                                 <Link href={'/checkout'}>
                                     <button onClick={() => {
-                                        buyNow(variants[color][size]['slug'], qty, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
+                                        buyNow(variants[color][size]['slug'], 1, product.price, size, `${product.title}(${sizeRef.current.value}, ${color})`, `${color}`)
                                         toast.success("Checking Out :) ")
                                     }} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />BuyNow</button>
                                 </Link>
