@@ -39,7 +39,7 @@ const Navbar = ({ user, addInCart, removeFromCart, cart, subTotal, clearCart, lo
     });
         const [dropDown, setDropDown] = useState(false);
     return (
-        <nav className="flex flex-col items-center justify-around px-5 py-3 md:flex-row gap-y-2 tracking-wide md:py-7 sticky top-0 bg-white backdrop-blur-lg shadow-md rounded-b-xl bg-opacity-60 z-50">
+        <nav className="flex nav flex-col items-center justify-around px-5 py-3 md:flex-row gap-y-2 tracking-wide md:py-7 sticky top-0 bg-white backdrop-blur-lg shadow-md rounded-b-xl bg-opacity-60 z-50">
             <div className="brand font-bold text-xl cursor-pointer md:text-3xl italic text-[#b6464c] font-head tracking-widest -rotate-12">
                 <Link href={'/'}>
                     Vastram

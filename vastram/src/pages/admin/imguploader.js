@@ -1,14 +1,14 @@
 import { ThemeProvider } from '@emotion/react'
 import Head from 'next/head'
 import React from 'react'
-import FullLayout from '../../../template/src/layouts/FullLayout'
 import theme from '../../../template/src/theme/theme'
+import FullLayout from '../../../template/src/layouts/FullLayout'
 
-const Login = () => {
+const ImgUploader = () => {
     return (
         <>
             <Head>
-                <title>Admin - Login   |   Vastram</title>
+                <title>Image Uploader   |   Vastram</title>
             </Head>
             <ThemeProvider theme={theme}>
             <style jsx global>{`
@@ -25,4 +25,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default ImgUploader

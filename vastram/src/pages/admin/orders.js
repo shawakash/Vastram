@@ -4,11 +4,11 @@ import React from 'react'
 import FullLayout from '../../../template/src/layouts/FullLayout'
 import theme from '../../../template/src/theme/theme'
 
-const Login = () => {
+const Orders = () => {
     return (
         <>
             <Head>
-                <title>Admin - Login   |   Vastram</title>
+                <title>Orders   |   Vastram</title>
             </Head>
             <ThemeProvider theme={theme}>
             <style jsx global>{`
@@ -25,4 +25,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Orders

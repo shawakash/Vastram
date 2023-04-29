@@ -5,14 +5,16 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import LoadingBar from 'react-top-loading-bar'
+import LoadingBar from 'react-top-loading-bar';
+import Logo from '../../public/logo.jpg'
+
 
 export default function App({ Component, pageProps }) {
 
   const [cart, setCart] = useState({});
   const [subTotal, setSubTotal] = useState(0);
   const [user, setUser] = useState({ value: null });
-  const [key, setKey] = useState(Math.random()*10000);
+  const [key, setKey] = useState(Math.random() * 10000);
   const router = useRouter();
   const [progress, setProgress] = useState(0)
   const [showSideCart, setShowSideCart] = useState(false);
@@ -40,7 +42,7 @@ export default function App({ Component, pageProps }) {
     const token = localStorage.getItem("accessToken");
     const user = JSON.parse(localStorage.getItem("user"));
     if (token) {
-      setUser({ value: token, email: user?.email});
+      setUser({ value: token, email: user?.email });
     }
     // setKey(Math.random() * 1000)
   }, [router.query])    // either put router.query in dependency array or setUser after successfull login
@@ -129,14 +131,16 @@ export default function App({ Component, pageProps }) {
     <Head>
       <title>Vastram - Ethentic Wears</title>
       <meta name="description" content="Vastram, clothes, ethentic, tradition clothes" />
-      <link rel="shortcut icon" href={'public/logo.png'} type="image/x-icon" />
+      <link rel="shortcut icon" href={Logo} type="image/x-icon" />
       <meta name="viewport" content="width=device-width , initial-scale=1.0 , minimum-scale=1.0" />
     </Head>
-    {key && <Navbar key={key} showSideCart={showSideCart} logout={logout} user={user} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart} /> }
-    <main className="flex min-h-screen flex-col items-center justify-between md:px-24 px- py-5">
-      <Component {...pageProps} setUser={setUser} user={user} buyNow={buyNow} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart} />
-      {/* <Toaster /> */}
-    </main>
+        {key && <Navbar key={key} showSideCart={showSideCart} logout={logout} user={user} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart} />}
+    
+        <main className="flex min-h-screen flex-col items-center justify-between md:px-24 px- py-5">
+          <Component {...pageProps} setUser={setUser} user={user} buyNow={buyNow} addInCart={addInCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} cart={cart} />
+          {/* <Toaster /> */}
+        </main>
+
     <Footer />
   </>
   );

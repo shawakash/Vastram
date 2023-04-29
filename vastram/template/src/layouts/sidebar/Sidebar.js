@@ -76,8 +76,6 @@ const Sidebar = ({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) => {
           ))}
         </List>
       </Box>
-
-      <Buynow />
     </Box>
   );
   if (lgUp) {
