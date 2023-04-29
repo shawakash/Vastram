@@ -5,7 +5,7 @@ import Product from "../../../models/Product";
 const handler = async (req, res) => {
     if (req.method == 'POST') {
         try {
-            const { title, slug, desc, img, category, size, color, price, availqty } = req.body;
+            const { title, slug, desc, img, category, size, color, price, availqty } = JSON.parse(req.body);
             const product = new Product({
                 title,
                 slug,

@@ -69,22 +69,22 @@ const ProductPerfomance = () => {
             </TableCell>
             <TableCell>
               <Typography color="textSecondary" variant="h6">
-                Assigned
+              Title & Category
               </Typography>
             </TableCell>
             <TableCell>
               <Typography color="textSecondary" variant="h6">
-                Name
+                Slug
               </Typography>
             </TableCell>
             <TableCell>
               <Typography color="textSecondary" variant="h6">
-                Priority
+                Available Quantity
               </Typography>
             </TableCell>
             <TableCell align="right">
               <Typography color="textSecondary" variant="h6">
-                Budget
+                Item Price
               </Typography>
             </TableCell>
           </TableRow>

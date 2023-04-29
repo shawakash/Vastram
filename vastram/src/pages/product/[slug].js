@@ -69,10 +69,10 @@ const Slug = ({ addInCart, product, variants, buyNow, cart, errorStatusCode, tit
                 <title>Product - Vastram</title>
             </Head>
             <section className="text-gray-600 body-font overflow-hidden">
-                <div className="container px-5 pt-12 mx-auto">
-                    <div className="lg:w-4/5 mx-auto flex flex-wrap items-center justify-center ">
+                <div className="container px-5  pt-12 mx-auto">
+                    <div className="lg:w-4/5 mx-auto lg:flex-nowrap lg:flex-row flex flex-wrap items-center justify-center ">
                         <img alt="ecommerce" className="lg:w-[250px]  lg:h-[400px] object-scale-down object-top h-72  rounded" src={`${product?.img}`} />
-                        <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 md:justify-start md:items-start flex justify-center items-center flex-col">
+                        <div className=" w-2/3 lg:pl-10 lg:py-6 mt-6 lg:mt-0 justify-start items-start flex md:justify-center md:items-center flex-col">
                             <h2 className="text-lg md:text-xl title-font text-gray-500 tracking-widest">Vastram</h2>
                             <h1 className="text-gray-900 text-3xl title-f font-medium mb-1">{product?.title} ({size}/{color})</h1>
                             <div className="flex mb-4">
@@ -112,9 +112,9 @@ const Slug = ({ addInCart, product, variants, buyNow, cart, errorStatusCode, tit
                                     </a>
                                 </span>
                             </div>
-                            <p className="leading-relaxed">{product?.desc}</p>
+                            <p className="leading-relaxed md:w-2/3">{product?.desc}</p>
                             <div className="flex mt-6 md:gap-x-4 w-fit md:flex-row flex-wrap md:flex-nowrap gap-y-4 justify-around items-center pb-5 border-b-2 border-gray-100 mb-5">
-                                <div className="flex">
+                                <div className="flex ">
                                     <span className="mr-2">Color</span>
                                     <div className="">
                                         {/* {Object.keys(variants).map(cl => {
@@ -135,6 +135,9 @@ const Slug = ({ addInCart, product, variants, buyNow, cart, errorStatusCode, tit
                                         {Object.keys(variants).includes('Blue') && <button onClick={(e) => {
                                             selectColor(e);
                                         }} id='Blue' className={`border-2 ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none ${color == 'Blue' ? 'border-black' : 'border-gray-400'}`}></button>}
+                                        {Object.keys(variants).includes('Green') && <button onClick={(e) => {
+                                            selectColor(e);
+                                        }} id='Green' className={`border-2 ml-1 bg-green-500 rounded-full w-6 h-6 focus:outline-none ${color == 'Green' ? 'border-black' : 'border-gray-400'}`}></button>}
                                         {Object.keys(variants).includes('White') && <button onClick={(e) => {
                                             selectColor(e)
                                         }} id='White' className={`border-2 ml-1 bg-white rounded-full w-6 h-6 focus:outline-none ${color == 'White' ? 'border-black' : 'border-gray-400'}`}></button>}
@@ -175,7 +178,7 @@ const Slug = ({ addInCart, product, variants, buyNow, cart, errorStatusCode, tit
                                     }} className='md:text-xl text-lg  text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#cf8b8f] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><MdAddCircle /></button>
                                 </div>
                             </div>
-                            <div className="flex gap-6 justify-start w-full flex-wrap md:flex-nowrap items-center md:gap-x-8">
+                            <div className="flex gap-6 justify-start md:justify-center w-full flex-wrap md:flex-nowrap items-center md:gap-x-8">
                                 <span className="title-font font-medium font-serif md:text-xl  text-lg text-gray-900 w-fit sm:w-fit">{(product.availqty < qty || product.availqty <= 0) ? " Out Of Stock! " : `₹ ${product.price}`}</span>
                                 <Link href={'/checkout'}>
                                     <button disabled={(product.availqty < qty || product.availqty <= 0) ? true : false} onClick={() => {
@@ -185,7 +188,7 @@ const Slug = ({ addInCart, product, variants, buyNow, cart, errorStatusCode, tit
                                 </Link>
                                 <div className=" flex gap-x-4 items-center">
                                     <Link href={'/checkout'}>
-                                        <button disabled={((product.availqty < qty || product.availqty <= 0) || (!Object.keys(cart).length)) ? true : false} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#e3868a] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
+                                        <button disabled={((product.availqty < qty || product.availqty <= 0) ) ? true : false} className='md:text-lg text-sm text-white font-medium cursor-pointer bg-[#b6464c] disabled:bg-[#e3868a] rounded-md md:px-4 px-2 py-1 flex items-center gap-x-2'><BsFillBagCheckFill />CheckOut</button>
                                     </Link>
                                     <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                                         <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
