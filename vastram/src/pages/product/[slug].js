@@ -65,7 +65,9 @@ const Slug = ({ addInCart, product, variants, buyNow, cart, errorStatusCode, tit
     }
     return (
         <>
-
+            <Head>
+                <title>Product - Vastram</title>
+            </Head>
             <section className="text-gray-600 body-font overflow-hidden">
                 <div className="container px-5 pt-12 mx-auto">
                     <div className="lg:w-4/5 mx-auto flex flex-wrap items-center justify-center ">

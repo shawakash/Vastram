@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router';
@@ -11,7 +12,7 @@ const Login = ({ setUser }) => {
     const passRef = useRef();
 
     useEffect(() => {
-        if(localStorage.getItem("accessToken")) {
+        if (localStorage.getItem("accessToken")) {
             router.push('/');
             toast.success('Already Logged In :)');
         }
@@ -29,21 +30,21 @@ const Login = ({ setUser }) => {
         });
 
         const data = await response.json();
-        if(data.status == 'success') {
+        if (data.status == 'success') {
             localStorage.setItem("accessToken", data.result.accessToken);
             localStorage.setItem("user", JSON.stringify(data.result.user));
             toast.success("Welcome Back!");
             setTimeout((_) => {
-                setUser({value: data.result.accessToken, email: data.result.user.email});
-                passRef.current.value =''
-                emailRef.current.value =''
+                setUser({ value: data.result.accessToken, email: data.result.user.email });
+                passRef.current.value = ''
+                emailRef.current.value = ''
                 router.push('/');
             }, 500);
-            
-        } else { 
-            if(data.message.includes("Wrong")) {
+
+        } else {
+            if (data.message.includes("Wrong")) {
                 toast.error("Invalid Password");
-            } else if(data.message.includes("No Such User")) {
+            } else if (data.message.includes("No Such User")) {
                 toast.error("Invalid Email");
             }
             console.error(data.message);
@@ -52,14 +53,17 @@ const Login = ({ setUser }) => {
 
     return (
         <>
+            <Head>
+                <title>Login - Vastram</title>
+            </Head>
             <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 w-full tracking-wide">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <Image className="mx-auto" src={'/logo.jpg'} width={150} height={40} alt="Vastram" />
-                        <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Login</h2>
+                    <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Login</h2>
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" onSubmit={handleSubmit }>
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                             <div className="mt-2">

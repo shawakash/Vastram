@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Router, useRouter } from 'next/router'
@@ -12,10 +13,14 @@ const Forgot = () => {
             Router.push('/');
             toast.success('Already Logged In :)');
         }
+        console.log(router.query.token)
     },[router.query])
 
     return (
         <>
+        <Head>
+                <title>Forgot Password - Vastram</title>
+            </Head>
             <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 w-full tracking-wide">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center justify-center">
                     <Image  className="mx-auto" src={'/logo.jpg'} width={150} height={40} alt="Vastram" />

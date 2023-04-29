@@ -3,13 +3,17 @@ import Link from 'next/link';
 import React from 'react'
 import mongoose from 'mongoose'
 import Product from '../../models/Product';
+import Head from 'next/head';
 
 const Traditional = ({ products }) => {
     return (
         <>
+            <Head>
+                <title>Traditional Clothings - Vastram</title>
+            </Head>
             <section>
                 <div className="flex flex-wrap gap-12 justify-center product[item]s-center">
-                    {!products? <div className="text-lg font-medium">No traditional Stocks, Stay Tunned!</div>  : ''}
+                    {!products ? <div className="text-lg font-medium">No traditional Stocks, Stay Tunned!</div> : ''}
                     {products && Object.keys(products).map((item) => {
                         return (
                             <Link passHref={true} key={products[item]._id} href={`/product/${products[item].slug}`}>
@@ -81,10 +85,10 @@ export async function getServerSideProps(context) {
             .then((e) => console.log('Database Connected.'))
             .catch(console.error);
     }
-    let products = await Product.find({category: 'traditional'});
+    let products = await Product.find({ category: 'traditional' });
     let traditional = {};
 
-    for(let item of products) {
+    for (let item of products) {
         if (item.title in traditional) {
             if (!traditional[item.title].color.includes(item.color) && item.availqty) {
                 // traditional[item.title].color = [...traditional[item.title].color, item.color];

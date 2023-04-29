@@ -3,12 +3,17 @@ import Link from 'next/link';
 import React from 'react'
 import mongoose from 'mongoose'
 import Product from '../../models/Product';
+import Head from 'next/head';
 
 const Shirts = ({ products }) => {
     return (
         <>
+            <Head>
+                <title>Auhtentic Shirts</title>
+            </Head>
             <section>
                 <div className="flex flex-wrap gap-12 justify-center product[item]s-center">
+                {!Object.keys(products).length? <div className="text-lg font-medium">No suits Stocks, Stay Tunned!</div>  : ''}
                     {Object.keys(products).map((item) => {
                         return (
                             <Link passHref={true} key={products[item]._id} href={`/product/${products[item].slug}`}>
@@ -38,7 +43,7 @@ const Shirts = ({ products }) => {
                                                 {products[item].color.includes('Black') && <button className="border-2 border-gray-300 ml-1 bg-black rounded-full w-6 h-6 focus:outline-none"></button>}
                                                 {products[item].color.includes('Blue') && <button className="border-2 border-gray-300 ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none"></button>}
                                                 {products[item].color.includes('White') && <button className="border-2 border-gray-300 ml-1 bg-white rounded-full w-6 h-6 focus:outline-none"></button>}
-                                                
+
                                             </div>
                                         </div>
                                     </div>

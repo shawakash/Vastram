@@ -55,8 +55,8 @@ const Navbar = ({ user, addInCart, removeFromCart, cart, subTotal, clearCart, lo
                 <Link href={'/traditional'}>
                     <li className="">Traditional</li>
                 </Link>
-                <Link href={'/ethentic'}>
-                    <li className="">Ethentic</li>
+                <Link href={'/authentic'}>
+                    <li className="">Authentic</li>
                 </Link>
             </ul>
             <ul className="flex gap-x-5 text-sm font-medium md:text-lg justify-between items-center lg:gap-x-8 cursor-pointer">

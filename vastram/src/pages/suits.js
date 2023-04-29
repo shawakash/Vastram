@@ -3,10 +3,14 @@ import Link from 'next/link';
 import React from 'react'
 import mongoose from 'mongoose'
 import Product from '../../models/Product';
+import Head from 'next/head';
 
 const Suits = ({ products }) => {
     return (
-        <>
+        <>  
+        <Head>
+            <title>Suits - Vastram</title>
+        </Head>
             <section>
                 <div className="flex flex-wrap gap-12 justify-center product[item]s-center">
                     {!Object.keys(products).length? <div className="text-lg font-medium">No suits Stocks, Stay Tunned!</div>  : ''}

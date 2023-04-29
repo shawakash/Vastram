@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react'
 import mongoose from 'mongoose';
 import Link from 'next/link';
+import Head from 'next/head';
 
 const Orders = () => {
     const router = useRouter();
@@ -30,7 +31,9 @@ const Orders = () => {
     }, [router])
     return (
         <>
-
+            <Head>
+                <title>Your Orders - Vastram</title>
+            </Head>
             <div className="flex flex-col w-full h-full">
                 <div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
                     <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">

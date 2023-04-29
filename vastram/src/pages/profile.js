@@ -52,27 +52,27 @@ const Profile = ({ user, setUser }) => {
     const handleSubmit1 = async (e) => {
         e.preventDefault();
 
-            const data = {
-                email: dbuser.email,
-                name: nameRef.current.value,
-                address: addressRef.current.value,
-                phone: phoneRef.current.value,
-                pincode: zipRef.current.value,
-            }
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/updateUser`, {
-                method: 'POST',
-                body: JSON.stringify(data)
-            });
-            const resJson = await response.json();
-            if (resJson.status == 'error') {
-                toast.error(resJson.message);
-            } else {
-                localStorage.setItem("user", JSON.stringify(resJson.result.user));
-                localStorage.setItem("accessToken", resJson.result.accessToken);
-                setUser({ value: resJson.result.accessToken });
-                toast.success('Updated Your Profile');
-                router.push('/profile')
-            }
+        const data = {
+            email: dbuser.email,
+            name: nameRef.current.value,
+            address: addressRef.current.value,
+            phone: phoneRef.current.value,
+            pincode: zipRef.current.value,
+        }
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/updateUser`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+        const resJson = await response.json();
+        if (resJson.status == 'error') {
+            toast.error(resJson.message);
+        } else {
+            localStorage.setItem("user", JSON.stringify(resJson.result.user));
+            localStorage.setItem("accessToken", resJson.result.accessToken);
+            setUser({ value: resJson.result.accessToken });
+            toast.success('Updated Your Profile');
+            router.push('/profile')
+        }
 
 
     }
@@ -112,6 +112,9 @@ const Profile = ({ user, setUser }) => {
 
 
     return (<>
+        <Head>
+            <title>Your Account - Vastram</title>
+        </Head>
         <div className="checkout flex flex-col sm:w-3/4 w-80 gap-y-6 md:gap-y-20 pb-8 ">
             <div className="head flex justify-center items-center text-2xl md:text-4xl text-[#b6464c] font-head font-semibold">
                 Account Details
