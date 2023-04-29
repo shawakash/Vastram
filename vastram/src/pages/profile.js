@@ -25,10 +25,9 @@ const Profile = ({ user, setUser }) => {
     const [disabled2, setDisabled2] = useState(true)
 
     useEffect(() => {
-        if (!localStorage.getItem("accessToken")) {
+        if (!localStorage.getItem("accessToken") || !localStorage.getItem("user")) {
             router.push('/login');
-        } else {
-
+        } else if(localStorage.getItem("user")){
             setDbuser(JSON.parse(localStorage.getItem("user")))
         }
     }, [router, router.query])

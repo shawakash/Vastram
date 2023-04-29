@@ -10,22 +10,22 @@ const handler = async (req, res) => {
         const { email } = JSON.parse(req.body);
         // Check If User Exist In Database 
         const user = await User.findOne({ email });
+        console.log(user)
         if(!user) {
             return res.status(404).send(wrapResponse.error(404, 'No Such User :| '));
         }
         // Send An Email To User
         let token = `${uid(32)}`;
-        const forgot = new Forgot({
-            name: user.name,
-            email,
-            token
-        });
+        const upDateForgot = await Forgot.findOneAndUpdate({email}, { token, name: user.name, email }, {upsert: true, returnOriginal: false})
+        console.log(upDateForgot)
         let forgotEmail = `
         Hi ${user.name},
         
         There was a request to change your password!
         
         If you did not make this request then please ignore this email.
+
+        Don't share the link provided to anyone !!!
         
         Otherwise, please click this link to change your password: <a href='http://www.vastram.asc/forgot?token=${token}'>Link</a>`;
         console.log(token)

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
+const ForgotSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -8,15 +8,15 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true,
     },
     token: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
     }
 }, {
     timestamps: true,
 });
 mongoose.models = {};
-export default mongoose.model("User", UserSchema);
+export default mongoose.model("Forgot", ForgotSchema);
 // export default mongoose.model.User || mongoose.model("User", UserSchema);

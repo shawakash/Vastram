@@ -16,7 +16,6 @@ const Forgot = () => {
 
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem("user")));
-        console.log(router.query.token)
     }, [router, router.query])
 
     const handleChange = () => {
@@ -54,8 +53,8 @@ const Forgot = () => {
         } else {
 
                 const data = {
-                    email: user.email,
                     password: passRef.current.value,
+                    token: router.query.token
                 }
                 const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/resetPassword`, {
                     method: 'POST',
@@ -67,12 +66,17 @@ const Forgot = () => {
                 if (resJson.status == 'error') {
                     toast.error(resJson.message);
                 } else {
+                    if(!localStorage.getItem("accessToken")) {
+                        toast.success("You are Logged in with your new password :) ")
+                    }
                     localStorage.setItem("user", JSON.stringify(resJson.result.user));
                     localStorage.setItem("accessToken", resJson.result.accessToken);
                     setUser({ value: resJson.result.accessToken });
-                    toast.success('Updated Your Password');
-                    passRef.current.value = '';
-                    cPassRef.current.value = '';
+                    setTimeout(() => {
+                        toast.success('Updated Your Password');
+                        passRef.current.value = '';
+                        cPassRef.current.value = '';
+                    }, 1500)
                     router.push('/profile')
                 }
             }
@@ -118,7 +122,7 @@ const Forgot = () => {
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                                 <div className="mt-2">
-                                    <input ref={emailRef} defaultValue={user? user.email : ''} id="email" name="email" type="email" autocomplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
+                                    <input ref={emailRef} defaultValue={user?.email} id="email" name="email" type="email" autocomplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#b6464c] outline-none px-2 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#b6464c] sm:text-sm sm:leading-6 transition-all" />
                                 </div>
                             </div>
 
