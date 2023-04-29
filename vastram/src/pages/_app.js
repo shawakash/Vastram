@@ -48,6 +48,7 @@ export default function App({ Component, pageProps }) {
 
   const logout = () => {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
     setUser({ value: null });
     setKey(Math.random() * 10000);
     router.push('/')

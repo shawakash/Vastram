@@ -27,8 +27,10 @@ const Profile = ({ user, setUser }) => {
     useEffect(() => {
         if (!localStorage.getItem("accessToken")) {
             router.push('/login');
+        } else {
+
+            setDbuser(JSON.parse(localStorage.getItem("user")))
         }
-        setDbuser(JSON.parse(localStorage.getItem("user")))
     }, [router, router.query])
 
     const handleChange = (e) => {
@@ -100,7 +102,7 @@ const Profile = ({ user, setUser }) => {
                 localStorage.setItem("user", JSON.stringify(resJson.result.user));
                 localStorage.setItem("accessToken", resJson.result.accessToken);
                 setUser({ value: resJson.result.accessToken });
-                toast.success('Updated Your Profile');
+                toast.success('Updated Your Password');
                 passRef.current.value = '';
                 cPassRef.current.value = '';
                 oPassRef.current.value = '';
